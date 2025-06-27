@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tugas Kuliah</title>
   
-  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
   <link rel="manifest" href="manifest.json">
 
 
@@ -153,18 +153,36 @@
     <form id="task-form" method="POST" enctype="multipart/form-data">
       <h4>Form Tugas Kuliah</h4>
 
-      
-   <a href="https://rahmathaikal05.github.io/studyfin/" style="
-  background-color: #d97706;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 16px;
-  display: inline-block;
-">
-  ←
+    <!-- Tombol Floating Kembali -->
+<a href="https://rahmathaikal05.github.io/studyfin/" class="floating-back-button" aria-label="Kembali">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+  </svg>
 </a>
+
+<!-- CSS -->
+<style>
+.floating-back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 44px;
+  height: 44px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  z-index: 9999;
+  transition: all 0.2s ease;
+}
+
+.floating-back-button:hover {
+  background-color: #ff0000;
+  transform: scale(1.1);
+}
+</style>
 
       <label for="TanggalDiberikan">Tanggal Diberikan</label>
       <input type="date" id="TanggalDiberikan" name="Diberikan" required />
