@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tugas Kuliah</title>
+  
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="manifest.json">
+
+
+  <style>
+    :root {
+      --primary-yellow: #facc15;
+      --secondary-yellow: #fef3c7;
+      --dark-yellow: #d97706;
+      --text-dark: #1f2937;
+      --bg-light: #fff8e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background-color: var(--secondary-yellow);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      color: var(--text-dark);
+    }
+
+    h4 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: var(--dark-yellow);
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    input[type="date"],
+    input[type="file"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background-color: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    #submit {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--dark-yellow);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #submit:hover {
+      background-color: #b45309;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 16px;
+      padding: 10px;
+      background-color: #22c55e;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.3s ease-in-out;
+    }
+
+    .loading-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .loading-spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid var(--dark-yellow);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      h4 {
+        font-size: 1.3rem;
+      }
+
+      input, select, textarea, #submit {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="task-form" method="POST" enctype="multipart/form-data">
+      <h4>Form Tugas Kuliah</h4>
+
+      
+   <a href="https://rahmathaikal05.github.io/studyfin/" style="
+  background-color: #d97706;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  display: inline-block;
+">
+  ←
+</a>
+
+      <label for="TanggalDiberikan">Tanggal Diberikan</label>
+      <input type="date" id="TanggalDiberikan" name="Diberikan" required />
+
+      <label for="TanggalDikumpulkan">Tanggal Dikumpulkan</label>
+      <input type="date" id="TanggalDikumpulkan" name="Dikumpulkan" required />
+
+      <label for="PertemuanKe">Pertemuan Ke</label>
+      <select id="PertemuanKe" name="Pertemuan" required>
+        <option value="">Pilih Pertemuan</option>
+        <script>
+          for (let i = 1; i <= 16; i++) {
+            document.write(`<option value="${i}">${i}</option>`);
+          }
+        </script>
+      </select>
+
+      <label for="MataKuliah">Mata Kuliah</label>
+      <select id="MataKuliah" name="MK" required>
+        <option value="">Pilih Mata Kuliah</option>
+        <option value="Matematika II">Matematika II</option>
+        <option value="Praktikum Dasar Teknik Digital">Praktikum Dasar Teknik Digital</option>
+        <option value="Bengkel Elektronika">Bengkel Elektronika</option>
+        <option value="Rangkaian Elektronika Analog">Rangkaian Elektronika Analog</option>
+        <option value="Praktikum Rangkaian Elektronika Analog">Praktikum Rangkaian Elektronika Analog</option>
+        <option value="Sistem Telekomunikasi">Sistem Telekomunikasi</option>
+        <option value="Pendidikan Agama">Pendidikan Agama</option>
+        <option value="Praktikum Medan Elektromagnetik">Praktikum Medan Elektromagnetik</option>
+        <option value="Rangkaian Listrik II">Rangkaian Listrik II</option>
+        <option value="Medan Elektromagnetik II">Medan Elektromagnetik II</option>
+        <option value="Dasar Teknik Digital">Dasar Teknik Digital</option>
+      </select>
+
+      <label for="TextFormat">Format Teks</label>
+      <select id="TextFormat">
+        <option value="default">Normal</option>
+        <option value="uppercase">Uppercase (HURUF BESAR SEMUA)</option>
+        <option value="lowercase">Lowercase (huruf kecil semua)</option>
+        <option value="capitalize">Capitalize (Setiap Kata Kapital)</option>
+        <option value="sentence">Sentence Case (Awal kalimat kapital)</option>
+        <option value="title">Title Case (Judul Dengan Kapitalisasi Kata Penting)</option>
+        <option value="inverse">Inverse Case (kAPiTaL BeRaNTaKaN)</option>
+      </select>
+
+      <label for="TugasDiberikan">Tugas Yang Diberikan</label>
+      <textarea id="TugasDiberikan" name="Tugas Yang Diberikan" rows="4" required></textarea>
+
+      <label for="LampiranGambar">Lampiran Gambar (opsional, bisa lebih dari satu)</label>
+      <input type="file" id="LampiranGambar" name="LampiranGambar" accept="image/*" multiple />
+
+      <input type="submit" id="submit" value="Input" />
+    </form>
+    <div class="success-message" id="success-message">Data berhasil diinput!</div>
+  </div>
+
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('task-form');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const successMessage = document.getElementById('success-message');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec';
+    const telegramBotToken = '7517598036:AAHRqq7wpd242P2-gc9OQtBRnvWnsYDHU78';
+    const telegramChatId = '@inputtugaskuliah';
+
+    // Fungsi format teks
+    function toSentenceCase(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    }
+    function toCapitalize(text) {
+      return text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    }
+    function toTitleCase(text) {
+      const minor = ['dan', 'di', 'ke', 'yang', 'dari', 'untuk', 'atau', 'pada'];
+      return text
+        .toLowerCase()
+        .split(' ')
+        .map((word, i) => i === 0 || !minor.includes(word) ? word.charAt(0).toUpperCase() + word.slice(1) : word)
+        .join(' ');
+    }
+    function toInverseCase(text) {
+      return text.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join('');
+    }
+
+    // Fungsi untuk kirim data ke Google Calendar via Apps Script endpoint (buat event)
+    async function createGoogleCalendarEvent(tanggal, title, description) {
+      // Endpoint Apps Script harus support menerima request ini untuk buat event Google Calendar
+      // Sesuaikan URL dengan yang kamu punya untuk buat event Google Calendar
+      const calendarScriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec'; 
+      // kalau pakai satu Apps Script bisa diintegrasi endpointnya untuk insert event dan simpan data
+
+      // Payload event
+      const eventPayload = {
+        action: 'createEvent',
+        date: tanggal,
+        title: title,
+        description: description
+      };
+
+      // Kirim POST request
+      return fetch(calendarScriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(eventPayload)
+      }).then(res => res.json());
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loadingOverlay.classList.add('active');
+
+      const formData = new FormData(form);
+      const tugasText = document.getElementById('TugasDiberikan').value;
+      const textFormat = document.getElementById('TextFormat').value;
+
+      // Format teks sesuai pilihan
+      let formattedTugas = tugasText;
+      switch (textFormat) {
+        case 'uppercase': formattedTugas = tugasText.toUpperCase(); break;
+        case 'lowercase': formattedTugas = tugasText.toLowerCase(); break;
+        case 'capitalize': formattedTugas = toCapitalize(tugasText); break;
+        case 'sentence': formattedTugas = toSentenceCase(tugasText); break;
+        case 'title': formattedTugas = toTitleCase(tugasText); break;
+        case 'inverse': formattedTugas = toInverseCase(tugasText); break;
+        default: formattedTugas = tugasText;
+      }
+      formData.set("Tugas Yang Diberikan", formattedTugas);
+
+      const data = Object.fromEntries(formData.entries());
+      // Compose pesan untuk Telegram dan kalender
+      const message = `<pre>\n🔔 Tugas Kuliah Baru\n\n📅 Diberikan   : ${data['Diberikan']}\n📅 Dikumpulkan : ${data['Dikumpulkan']}\n📚 Pertemuan   : ${data['Pertemuan']}\n📝 MK          : ${data['MK']}\n\n📋 Tugas Yang Diberikan:\n\n${formattedTugas}\n\n</pre>`;
+
+      try {
+        // Kirim data ke Google Sheets (Apps Script)
+        await fetch(scriptURL, { method: 'POST', body: formData });
+
+        // Kirim pesan ke Telegram
+        await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: telegramChatId, text: message, parse_mode: 'HTML' })
+        });
+
+        // Kirim foto satu per satu jika ada
+        const files = document.getElementById('LampiranGambar').files;
+        for (let i = 0; i < files.length; i++) {
+          const photoData = new FormData();
+          photoData.append("chat_id", telegramChatId);
+          photoData.append("photo", files[i]);
+          photoData.append("caption", `Lampiran Tugas (${i + 1} dari ${files.length}).`);
+
+          await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendPhoto`, {
+            method: 'POST',
+            body: photoData
+          });
+        }
+
+        // Buat event di Google Kalender (dengan catatan tugas sebagai deskripsi)
+     // await createGoogleCalendarEvent(
+        //  data['Dikumpulkan'], 
+     //     `${data['MK']}`, 
+      //    `Tugas: ${formattedTugas}\nPertemuan ke-${data['Pertemuan']}\nDiberikan: ${data['Diberikan']}`
+  //      );   -->
+
+        loadingOverlay.classList.remove('active');
+        successMessage.style.display = 'block';
+        setTimeout(() => successMessage.style.display = 'none', 3000);
+        form.reset();
+
+      } catch (error) {
+        alert("Terjadi kesalahan saat mengirim data.");
+        console.error(error);
+        loadingOverlay.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

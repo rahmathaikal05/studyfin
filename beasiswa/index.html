@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Form Beasiswa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+  <link rel="manifest" href="manifest.json">
+  
+  <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #ffffff;
+    height: 100%;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  form {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #222;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #333;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  input:focus, select:focus {
+    border-color: #28a745;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #218838;
+  }
+
+  #msg {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .success {
+    color: green;
+  }
+
+  .error {
+    color: red;
+  }
+</style>
+
+</head>
+<body>
+  
+  <form id="beasiswa-form">
+    <h2>Form Input Beasiswa</h2>
+
+    
+   <a href="https://rahmathaikal05.github.io/studyfin/" style="
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  display: inline-block;
+">
+  ←
+</a>
+
+
+    <label>Nama Beasiswa:
+      <input type="text" name="namabeasiswa" required />
+    </label>
+
+    <label>Tanggal Buka:
+      <input type="date" name="tanggalbuka" required />
+    </label>
+
+    <label>Tanggal Tutup:
+      <input type="date" name="tanggaltutup" required />
+    </label>
+
+    <label>Link Pendaftaran:
+      <input type="url" name="sumber" placeholder="https://..." required />
+    </label>
+
+    <label>Status:
+      <select name="status" required>
+        <option value="">-- Pilih Status --</option>
+        <option value="Sudah">Sudah</option>
+        <option value="Belum">Belum</option>
+      </select>
+    </label>
+
+    <button type="submit">Kirim</button>
+    <div id="msg"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById("beasiswa-form");
+    const msg = document.getElementById("msg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      msg.textContent = "Mengirim data...";
+      msg.className = "show";
+
+      const formData = new FormData(form);
+      const data = {
+        namabeasiswa: formData.get("namabeasiswa"),
+        tanggalbuka: formData.get("tanggalbuka"),
+        tanggaltutup: formData.get("tanggaltutup"),
+        sumber: formData.get("sumber"),
+        status: formData.get("status")
+      };
+
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbwQCBfhkbiMSX6F_Q9YuJT3tKDzrhDewJkt0aAY_MBkdAcb1OEUfvJV1i8Sas_qXeG-EA/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        msg.textContent = "✅ Data berhasil dikirim & disimpan ke Google Calendar";
+        msg.className = "success show";
+        form.reset();
+      } catch (err) {
+        msg.textContent = "⚠️ Gagal mengirim data: " + err.message;
+        msg.className = "error show";
+      }
+    });
+  </script>
+
+</body>
+</html>
