@@ -1,6 +1,6 @@
 {
-  "name": "List Input Data Portal",
-  "short_name": "Portal",
+  "name": "Study Finance",
+  "short_name": "StudyFin",
   "start_url": "https://rahmathaikal05.github.io/studyfin/",
   "display": "standalone",
   "background_color": "#ffffff",
