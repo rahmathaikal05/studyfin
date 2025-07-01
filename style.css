@@ -1,0 +1,248 @@
+/* --- Variabel CSS Global (Root) --- */
+:root {
+    /* Light Mode Variables */
+    --light-bg: #f8f8f8;
+    --light-text: #333;
+    --light-accent: #007bff; /* Primary blue */
+    --light-secondary-bg: #ececec; /* Footer background */
+    --light-border: #ddd; /* Footer border */
+    --light-primary-btn-bg: #2563eb;
+    --light-warning-btn-bg: #d97706;
+    --light-success-btn-bg: #28a745;
+    --light-primary-btn-hover: #1d4ed8;
+    --light-warning-btn-hover: #b46005;
+    --light-success-btn-hover: #218838;
+
+    /* Dark Mode Variables */
+    --dark-bg: #1a1a2e;
+    --dark-text: #e0e0e0;
+    --dark-accent: #64ffda; /* Teal color for dark mode */
+    --dark-secondary-bg: #2d2d4e;
+    --dark-border: #444;
+    --dark-primary-btn-bg: #4f80ed;
+    --dark-warning-btn-bg: #e6a73c;
+    --dark-success-btn-bg: #4caf50;
+    --dark-primary-btn-hover: #3b6ed3;
+    --dark-warning-btn-hover: #cd8a27;
+    --dark-success-btn-hover: #3d8841;
+
+    --transition-speed: 0.3s ease; /* Kecepatan transisi umum */
+}
+
+/* --- Pengaturan Ulang Dasar (Reset) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --- Gaya Umum HTML & Body --- */
+html, body {
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan di mobile */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Memastikan body mengisi seluruh tinggi viewport */
+    position: relative; /* Diperlukan untuk positioning absolute pada footer dan tombol mengambang */
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* --- Tema Mode (Default: Light Mode) --- */
+body.light-mode {
+    background-color: var(--light-bg);
+    color: var(--light-text);
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* --- Gaya Umum Elemen yang Beradaptasi dengan Tema --- */
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    transition: color var(--transition-speed);
+}
+
+.footer {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Penerapan Tema pada Footer */
+body.light-mode .footer {
+    background-color: var(--light-secondary-bg);
+    border-color: var(--light-border);
+    color: var(--light-text);
+}
+
+body.dark-mode .footer {
+    background-color: var(--dark-secondary-bg);
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+}
+
+/* --- Gaya Tombol Berdasarkan Tema --- */
+.primary-btn { background-color: var(--light-primary-btn-bg); }
+.primary-btn:hover { background-color: var(--light-primary-btn-hover); }
+
+.warning-btn { background-color: var(--light-warning-btn-bg); }
+.warning-btn:hover { background-color: var(--light-warning-btn-hover); }
+
+.success-btn { background-color: var(--light-success-btn-bg); }
+.success-btn:hover { background-color: var(--light-success-btn-hover); }
+
+body.dark-mode .primary-btn { background-color: var(--dark-primary-btn-bg); }
+body.dark-mode .primary-btn:hover { background-color: var(--dark-primary-btn-hover); }
+
+body.dark-mode .warning-btn { background-color: var(--dark-warning-btn-bg); }
+body.dark-mode .warning-btn:hover { background-color: var(--dark-warning-btn-hover); }
+
+body.dark-mode .success-btn { background-color: var(--dark-success-btn-bg); }
+body.dark-mode .success-btn:hover { background-color: var(--dark-success-btn-hover); }
+
+/* --- Layout & Struktur Umum --- */
+.container {
+    max-width: 1100px; /* Lebar maksimum kontainer utama */
+    margin: 0 auto; /* Pusatkan kontainer */
+    padding: 0 20px; /* Padding horizontal */
+}
+
+/* Kelas khusus untuk halaman menu */
+.menu-page {
+    text-align: center; /* Untuk memusatkan H1 */
+    padding: 20px; /* Padding di sekitar konten menu */
+}
+
+.menu {
+    display: flex; /* Menggunakan Flexbox untuk tata letak kolom */
+    flex-direction: column;
+    gap: 15px; /* Jarak antar item menu */
+    align-items: center; /* Memusatkan item menu secara horizontal */
+    margin-top: 20px; /* Jarak dari H1 */
+}
+
+.menu-item {
+    display: inline-flex; /* Membuat tombol menyesuaikan konten dan menggunakan flexbox internal */
+    align-items: center; /* Memusatkan ikon dan teks secara vertikal dalam tombol */
+    justify-content: center; /* Memusatkan konten secara horizontal dalam tombol */
+
+    padding: 15px 30px; /* Padding vertikal & horizontal tombol */
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+    transition: background-color 0.3s ease, color var(--transition-speed), transform 0.2s ease, box-shadow 0.3s ease;
+
+    max-width: 400px; /* Batasi lebar maksimum tombol individu */
+    width: auto; /* Biarkan lebar menyesuaikan konten */
+}
+
+.menu-item:hover {
+    transform: translateY(-3px); /* Efek angkat saat hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
+}
+
+.menu-item i {
+    margin-right: 10px; /* Jarak antara ikon dan teks */
+    font-size: 1.2em; /* Ukuran ikon sedikit lebih besar */
+}
+
+/* Warna teks menu-item (tombol) */
+body.light-mode .menu-item {
+    color: white; /* Teks tombol selalu putih di light mode */
+}
+body.dark-mode .menu-item {
+    color: var(--dark-text); /* Teks tombol di dark mode bisa disesuaikan, atau tetap putih */
+}
+
+/* --- Tombol Dark Mode Mengambang --- */
+.dark-mode-toggle.floating-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%; /* Bentuk lingkaran */
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Pastikan di atas elemen lain */
+    transition: background-color var(--transition-speed), color var(--transition-speed), transform 0.3s ease;
+}
+
+/* Warna tombol dark mode pada Light Mode */
+body.light-mode .dark-mode-toggle.floating-toggle {
+    background-color: var(--light-accent);
+    color: white;
+}
+body.light-mode .dark-mode-toggle.floating-toggle:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+/* Warna tombol dark mode pada Dark Mode */
+body.dark-mode .dark-mode-toggle.floating-toggle {
+    background-color: var(--dark-accent);
+    color: var(--dark-bg); /* Warna background dark mode untuk teks ikon */
+}
+body.dark-mode .dark-mode-toggle.floating-toggle:hover {
+    background-color: #4fe1bd;
+    transform: scale(1.1);
+}
+
+/* --- Desain Responsif (Media Queries) --- */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    .menu {
+        width: 95%; /* Mengambil lebih banyak lebar di perangkat mobile */
+        max-width: 400px; /* Tetap batasi lebar maksimal */
+    }
+
+    .menu-item {
+        padding: 12px 25px; /* Sesuaikan padding untuk mobile */
+        font-size: 16px;
+        /* Opsional: Untuk kinerja ekstrem di perangkat mobile yang sangat rendah, Anda bisa menghilangkan bayangan di sini */
+        /* box-shadow: none; */
+    }
+
+    .dark-mode-toggle.floating-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .menu-item {
+        padding: 10px 20px; /* Sesuaikan padding untuk mobile yang lebih kecil */
+        font-size: 15px;
+    }
+}
