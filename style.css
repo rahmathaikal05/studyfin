@@ -1,32 +1,35 @@
 /* --- Variabel CSS Global (Root) --- */
 :root {
     /* Light Mode Variables */
-    --light-bg: #f8f8f8;
-    --light-text: #333;
+    --light-bg: #f0f2f5; /* Softer light background */
+    --light-text: #34495e; /* Darker, more readable text */
     --light-accent: #007bff; /* Primary blue */
-    --light-secondary-bg: #ececec; /* Footer background */
-    --light-border: #ddd; /* Footer border */
-    --light-primary-btn-bg: #2563eb;
-    --light-warning-btn-bg: #d97706;
-    --light-success-btn-bg: #28a745;
-    --light-primary-btn-hover: #1d4ed8;
-    --light-warning-btn-hover: #b46005;
+    --light-secondary-bg: #e0e6ed; /* Lighter footer/secondary background */
+    --light-border: #cdd4df; /* Softer border */
+    --light-primary-btn-bg: #007bff; /* Primary button background */
+    --light-warning-btn-bg: #ffc107; /* Warning button background */
+    --light-success-btn-bg: #28a745; /* Success button background */
+    --light-primary-btn-hover: #0056b3;
+    --light-warning-btn-hover: #e0a800;
     --light-success-btn-hover: #218838;
 
     /* Dark Mode Variables */
-    --dark-bg: #1a1a2e;
-    --dark-text: #e0e0e0;
+    --dark-bg: #1e272e; /* Deep dark background */
+    --dark-text: #ecf0f1; /* Light, contrasting text */
     --dark-accent: #64ffda; /* Teal color for dark mode */
-    --dark-secondary-bg: #2d2d4e;
-    --dark-border: #444;
-    --dark-primary-btn-bg: #4f80ed;
-    --dark-warning-btn-bg: #e6a73c;
-    --dark-success-btn-bg: #4caf50;
-    --dark-primary-btn-hover: #3b6ed3;
-    --dark-warning-btn-hover: #cd8a27;
+    --dark-secondary-bg: #2f3e4c; /* Slightly lighter dark secondary background */
+    --dark-border: #4a6572; /* Softer dark border */
+    --dark-primary-btn-bg: #4a90e2; /* Softer blue for dark mode primary button */
+    --dark-warning-btn-bg: #f8b400; /* Vibrant orange for dark mode warning */
+    --dark-success-btn-bg: #4caf50; /* Green for dark mode success */
+    --dark-primary-btn-hover: #3a7bd5;
+    --dark-warning-btn-hover: #e6a700;
     --dark-success-btn-hover: #3d8841;
 
-    --transition-speed: 0.3s ease; /* Kecepatan transisi umum */
+    --transition-speed: 0.4s ease-in-out; /* Slightly slower, smoother transition */
+    --border-radius-base: 8px; /* Consistent border radius */
+    --box-shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08); /* Lighter, more subtle shadow */
+    --box-shadow-dark: 0 4px 15px rgba(0, 0, 0, 0.3); /* Pronounced shadow for dark mode */
 }
 
 /* --- Pengaturan Ulang Dasar (Reset) --- */
@@ -38,19 +41,21 @@
 
 /* --- Gaya Umum HTML & Body --- */
 html, body {
-    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan di mobile */
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Modern font stack */
     line-height: 1.6;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh; /* Memastikan body mengisi seluruh tinggi viewport */
-    position: relative; /* Diperlukan untuk positioning absolute pada footer dan tombol mengambang */
+    min-height: 100vh;
+    position: relative;
     transition: background-color var(--transition-speed), color var(--transition-speed);
+    -webkit-font-smoothing: antialiased; /* Improve font rendering */
+    -moz-osx-font-smoothing: grayscale; /* Improve font rendering */
 }
 
 /* --- Tema Mode (Default: Light Mode) --- */
@@ -66,19 +71,24 @@ body.dark-mode {
 
 /* --- Gaya Umum Elemen yang Beradaptasi dengan Tema --- */
 h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    font-size: 2.8em; /* Slightly larger heading */
+    margin-bottom: 30px; /* More space below heading */
+    font-weight: 700; /* Bolder heading */
     transition: color var(--transition-speed);
+    text-align: center;
+    color: inherit; /* Inherit color from body for theme adaptation */
 }
 
 .footer {
     position: absolute;
-    bottom: 10px;
+    bottom: 0; /* Align to the very bottom */
     left: 0;
     right: 0;
     width: 100%;
-    font-size: 14px;
+    padding: 15px 20px; /* More padding for better aesthetics */
+    font-size: 13px; /* Slightly smaller font for footer */
     text-align: center;
+    border-top: 1px solid; /* Add a top border */
     transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
 }
 
@@ -96,97 +106,125 @@ body.dark-mode .footer {
 }
 
 /* --- Gaya Tombol Berdasarkan Tema --- */
+.primary-btn, .warning-btn, .success-btn {
+    border: none;
+    padding: 12px 25px; /* Consistent button padding */
+    border-radius: var(--border-radius-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform 0.2s ease, box-shadow 0.3s ease;
+    color: white; /* Default white text for light mode buttons */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .primary-btn { background-color: var(--light-primary-btn-bg); }
-.primary-btn:hover { background-color: var(--light-primary-btn-hover); }
+.primary-btn:hover { background-color: var(--light-primary-btn-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
 
 .warning-btn { background-color: var(--light-warning-btn-bg); }
-.warning-btn:hover { background-color: var(--light-warning-btn-hover); }
+.warning-btn:hover { background-color: var(--light-warning-btn-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
 
 .success-btn { background-color: var(--light-success-btn-bg); }
-.success-btn:hover { background-color: var(--light-success-btn-hover); }
+.success-btn:hover { background-color: var(--light-success-btn-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
 
-body.dark-mode .primary-btn { background-color: var(--dark-primary-btn-bg); }
-body.dark-mode .primary-btn:hover { background-color: var(--dark-primary-btn-hover); }
+body.dark-mode .primary-btn { background-color: var(--dark-primary-btn-bg); color: var(--dark-text); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+body.dark-mode .primary-btn:hover { background-color: var(--dark-primary-btn-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
 
-body.dark-mode .warning-btn { background-color: var(--dark-warning-btn-bg); }
-body.dark-mode .warning-btn:hover { background-color: var(--dark-warning-btn-hover); }
+body.dark-mode .warning-btn { background-color: var(--dark-warning-btn-bg); color: var(--dark-text); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+body.dark-mode .warning-btn:hover { background-color: var(--dark-warning-btn-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
 
-body.dark-mode .success-btn { background-color: var(--dark-success-btn-bg); }
-body.dark-mode .success-btn:hover { background-color: var(--dark-success-btn-hover); }
+body.dark-mode .success-btn { background-color: var(--dark-success-btn-bg); color: var(--dark-text); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+body.dark-mode .success-btn:hover { background-color: var(--dark-success-btn-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
 
 /* --- Layout & Struktur Umum --- */
 .container {
-    max-width: 1100px; /* Lebar maksimum kontainer utama */
-    margin: 0 auto; /* Pusatkan kontainer */
-    padding: 0 20px; /* Padding horizontal */
+    max-width: 1200px; /* Slightly wider container */
+    margin: 0 auto;
+    padding: 0 25px; /* Increased horizontal padding */
+    width: 100%; /* Ensure container takes full width up to max-width */
 }
 
 /* Kelas khusus untuk halaman menu */
 .menu-page {
-    text-align: center; /* Untuk memusatkan H1 */
-    padding: 20px; /* Padding di sekitar konten menu */
+    text-align: center;
+    padding: 40px 20px; /* More vertical padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px); /* Adjust height for footer */
 }
 
 .menu {
-    display: flex; /* Menggunakan Flexbox untuk tata letak kolom */
-    flex-direction: column;
-    gap: 15px; /* Jarak antar item menu */
-    align-items: center; /* Memusatkan item menu secara horizontal */
-    margin-top: 20px; /* Jarak dari H1 */
+    display: grid; /* Use CSS Grid for more flexible layout */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid columns */
+    gap: 25px; /* Increased gap between menu items */
+    margin-top: 40px; /* More space from H1 */
+    width: 100%;
+    max-width: 900px; /* Limit max-width of the grid */
 }
 
 .menu-item {
-    display: inline-flex; /* Membuat tombol menyesuaikan konten dan menggunakan flexbox internal */
-    align-items: center; /* Memusatkan ikon dan teks secara vertikal dalam tombol */
-    justify-content: center; /* Memusatkan konten secara horizontal dalam tombol */
-
-    padding: 15px 30px; /* Padding vertikal & horizontal tombol */
-    font-size: 18px;
-    font-weight: bold;
+    display: flex; /* Still use flex for internal alignment */
+    flex-direction: column; /* Stack icon and text vertically */
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px; /* Generous padding */
+    font-size: 19px; /* Slightly larger font for menu items */
+    font-weight: 600; /* Bolder text */
     text-decoration: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--box-shadow-light); /* Apply light mode shadow */
     transition: background-color 0.3s ease, color var(--transition-speed), transform 0.2s ease, box-shadow 0.3s ease;
-
-    max-width: 400px; /* Batasi lebar maksimum tombol individu */
-    width: auto; /* Biarkan lebar menyesuaikan konten */
+    text-align: center;
+    height: 150px; /* Fixed height for menu items for uniformity */
 }
 
 .menu-item:hover {
-    transform: translateY(-3px); /* Efek angkat saat hover */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
+    transform: translateY(-5px); /* More pronounced lift effect */
+    box-shadow: var(--box-shadow-light); /* Lighter, but still lifts */
+}
+
+body.dark-mode .menu-item {
+    box-shadow: var(--box-shadow-dark); /* Apply dark mode shadow */
+    color: var(--dark-text); /* Ensure text color adapts */
+}
+
+body.dark-mode .menu-item:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover in dark mode */
 }
 
 .menu-item i {
-    margin-right: 10px; /* Jarak antara ikon dan teks */
-    font-size: 1.2em; /* Ukuran ikon sedikit lebih besar */
+    margin-bottom: 10px; /* Space between icon and text */
+    font-size: 2.5em; /* Larger icon size */
+    transition: color var(--transition-speed);
 }
 
-/* Warna teks menu-item (tombol) */
+/* Ensure menu item text color is readable */
 body.light-mode .menu-item {
-    color: white; /* Teks tombol selalu putih di light mode */
+    color: white; /* Text on buttons will remain white in light mode */
 }
 body.dark-mode .menu-item {
-    color: var(--dark-text); /* Teks tombol di dark mode bisa disesuaikan, atau tetap putih */
+    color: var(--dark-text); /* Text on buttons will use dark-text variable in dark mode */
 }
+
 
 /* --- Tombol Dark Mode Mengambang --- */
 .dark-mode-toggle.floating-toggle {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
+    bottom: 30px; /* More distance from bottom */
+    right: 30px; /* More distance from right */
+    width: 55px; /* Slightly larger toggle button */
+    height: 55px;
     border: none;
-    border-radius: 50%; /* Bentuk lingkaran */
-    font-size: 24px;
+    border-radius: 50%;
+    font-size: 26px; /* Larger icon */
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Pastikan di atas elemen lain */
-    transition: background-color var(--transition-speed), color var(--transition-speed), transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+    z-index: 1000;
+    transition: background-color var(--transition-speed), color var(--transition-speed), transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Warna tombol dark mode pada Light Mode */
@@ -195,36 +233,76 @@ body.light-mode .dark-mode-toggle.floating-toggle {
     color: white;
 }
 body.light-mode .dark-mode-toggle.floating-toggle:hover {
-    background-color: #0056b3;
-    transform: scale(1.1);
+    background-color: var(--light-primary-btn-hover); /* Use primary button hover color */
+    transform: scale(1.08); /* Slightly less aggressive scale */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 /* Warna tombol dark mode pada Dark Mode */
 body.dark-mode .dark-mode-toggle.floating-toggle {
     background-color: var(--dark-accent);
-    color: var(--dark-bg); /* Warna background dark mode untuk teks ikon */
+    color: var(--dark-bg); /* Use dark-bg for icon color in dark mode */
 }
 body.dark-mode .dark-mode-toggle.floating-toggle:hover {
-    background-color: #4fe1bd;
-    transform: scale(1.1);
+    background-color: #4fe1bd; /* Slightly brighter teal on hover */
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* --- Desain Responsif (Media Queries) --- */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2em;
+        font-size: 2.2em;
+        margin-bottom: 25px;
     }
 
     .menu {
-        width: 95%; /* Mengambil lebih banyak lebar di perangkat mobile */
-        max-width: 400px; /* Tetap batasi lebar maksimal */
+        grid-template-columns: 1fr; /* Stack menu items on small screens */
+        padding: 0 20px; /* Add padding to grid on smaller screens */
     }
 
     .menu-item {
-        padding: 12px 25px; /* Sesuaikan padding untuk mobile */
+        padding: 20px;
+        font-size: 17px;
+        height: 130px; /* Adjust height for smaller screens */
+    }
+
+    .menu-item i {
+        font-size: 2em; /* Adjust icon size for smaller screens */
+    }
+
+    .dark-mode-toggle.floating-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .footer {
+        padding: 12px 15px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .menu-page {
+        padding: 30px 15px;
+    }
+
+    .menu-item {
+        padding: 18px;
         font-size: 16px;
-        /* Opsional: Untuk kinerja ekstrem di perangkat mobile yang sangat rendah, Anda bisa menghilangkan bayangan di sini */
-        /* box-shadow: none; */
+        height: 110px; /* Further adjust height for very small screens */
+    }
+
+    .menu-item i {
+        font-size: 1.8em;
     }
 
     .dark-mode-toggle.floating-toggle {
@@ -233,16 +311,5 @@ body.dark-mode .dark-mode-toggle.floating-toggle:hover {
         font-size: 20px;
         bottom: 15px;
         right: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.8em;
-    }
-
-    .menu-item {
-        padding: 10px 20px; /* Sesuaikan padding untuk mobile yang lebih kecil */
-        font-size: 15px;
     }
 }
