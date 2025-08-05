@@ -16,7 +16,7 @@
     }
     .box {
       background: #f1f1f1;
-      padding: 10px 15px;
+      padding: 12px 15px;
       margin: 10px 0;
       border-radius: 8px;
       font-size: 16px;
@@ -25,9 +25,9 @@
     }
     input {
       padding: 10px;
-      margin: 5px 0;
       width: 100%;
       box-sizing: border-box;
+      margin-bottom: 10px;
     }
     button {
       padding: 10px;
@@ -36,37 +36,51 @@
       color: white;
       border: none;
       border-radius: 5px;
-      margin-bottom: 10px;
+      margin: 10px 0;
       cursor: pointer;
+    }
+    .whatsapp-btn {
+      background: #25D366;
+    }
+    .maps-btn {
+      background: #28a745;
     }
     .message {
       color: green;
       font-size: 14px;
-      margin-bottom: 10px;
       text-align: center;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
 
-  <h2>Deteksi Lokasi dari Koordinat</h2>
+  <h2>Deteksi Lokasi</h2>
 
   <div id="coords" class="box">Koordinat akan muncul di sini...</div>
   <div id="address" class="box">Alamat akan muncul di sini...</div>
   <div id="message" class="message"></div>
 
   <button onclick="getMyLocation()">📍 Ambil Lokasi Saya</button>
+  <button id="mapsBtn" class="maps-btn" style="display: none;" onclick="openInMaps()">🗺️ Buka di Google Maps</button>
+  <button id="waBtn" class="whatsapp-btn" style="display: none;" onclick="shareToWhatsApp()">📤 Kirim ke WhatsApp</button>
 
   <hr>
 
   <h3>Cari Alamat dari Koordinat</h3>
-  <input type="text" id="latlon" placeholder="Contoh: 5.2, 106.8">
+  <input type="text" id="latlon" placeholder="Contoh: -6.2, 106.8">
   <button onclick="searchByLatLon()">Cari Alamat</button>
 
   <script>
     const coordsDiv = document.getElementById("coords");
     const addressDiv = document.getElementById("address");
     const msgDiv = document.getElementById("message");
+    const latlonInput = document.getElementById("latlon");
+    const mapsBtn = document.getElementById("mapsBtn");
+    const waBtn = document.getElementById("waBtn");
+
+    let lastLat = null;
+    let lastLon = null;
 
     function showMessage(text) {
       msgDiv.textContent = text;
@@ -89,6 +103,10 @@
     function updateLocation(lat, lon) {
       const coords = `${lat}, ${lon}`;
       coordsDiv.textContent = coords;
+      lastLat = lat;
+      lastLon = lon;
+      mapsBtn.style.display = "block";
+      waBtn.style.display = "block";
       addressDiv.textContent = "Mengambil alamat...";
 
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
@@ -124,7 +142,7 @@
     }
 
     function searchByLatLon() {
-      const input = document.getElementById("latlon").value.trim();
+      const input = latlonInput.value.trim();
       const parts = input.split(",");
       if (parts.length !== 2) {
         showMessage("Format salah. Gunakan: lat, lon");
@@ -142,7 +160,22 @@
       updateLocation(lat, lon);
     }
 
-    // Klik salin
+    function openInMaps() {
+      if (lastLat && lastLon) {
+        window.open(`https://www.google.com/maps?q=${lastLat},${lastLon}`, "_blank");
+      }
+    }
+
+    function shareToWhatsApp() {
+      if (!lastLat || !lastLon) return;
+
+      const url = `https://www.google.com/maps?q=${lastLat},${lastLon}`;
+      const text = `📍 Lokasi:\nKoordinat: ${lastLat}, ${lastLon}\nMap: ${url}\nAlamat: ${addressDiv.textContent}`;
+      const encoded = encodeURIComponent(text);
+      const waUrl = `https://wa.me/?text=${encoded}`;
+      window.open(waUrl, "_blank");
+    }
+
     coordsDiv.onclick = () => {
       navigator.clipboard.writeText(coordsDiv.textContent);
       showMessage("Koordinat disalin!");
