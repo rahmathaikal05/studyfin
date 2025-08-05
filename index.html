@@ -4,37 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StudyFin</title>
-  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="light-mode">
   <div class="container menu-page">
     <h1>StudyFin</h1>
     <div class="menu">
+      <!-- Menu: Pengeluaran -->
       <a href="pengeluaranharian/index.html" class="menu-item primary-btn">
         <i class="fas fa-money-bill-wave"></i>
         Pengeluaran
       </a>
+
+      <!-- Menu: Input Tugas -->
       <a href="tugaskuliah/index.html" class="menu-item warning-btn">
         <i class="fas fa-tasks"></i>
         Input Tugas Kuliah
       </a>
-      
+
+      <!-- Menu: Speed Converter -->
       <a href="konversi_jaringan/index.html" class="menu-item info-btn">
         <i class="fas fa-tachometer-alt"></i>
         Speed Converter Tool
       </a>
+
+      <!-- Menu: Koordinat GPS -->
+      <a href="gps/index.html" class="menu-item info-btn">
+        <i class="fas fa-map-marker-alt"></i>
+        Koordinat GPS
+      </a>
     </div>
   </div>
 
+  <!-- Footer -->
   <footer class="footer">&copy; 2025 Rahmat Haikal</footer>
 
+  <!-- Tombol Toggle Dark Mode -->
   <button id="darkModeToggle" class="dark-mode-toggle floating-toggle">🌙</button>
 
+  <!-- Script Toggle Dark Mode -->
   <script>
-    // Dark Mode Toggle Script
     const toggle = document.getElementById('darkModeToggle');
     const body = document.body;
 
