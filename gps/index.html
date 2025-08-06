@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Deteksi Lokasi</title>
+  <title>Deteksi Lokasi + Peta</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
     }
     h2, h3 {
@@ -23,33 +24,32 @@
       user-select: all;
       cursor: pointer;
     }
-    input {
+    input, button {
       padding: 10px;
       width: 100%;
       box-sizing: border-box;
       margin-bottom: 10px;
+      font-size: 15px;
     }
     button {
-      padding: 10px;
-      width: 100%;
       background: #007bff;
       color: white;
       border: none;
       border-radius: 5px;
-      margin: 10px 0;
       cursor: pointer;
     }
-    .whatsapp-btn {
-      background: #25D366;
-    }
-    .maps-btn {
-      background: #28a745;
-    }
+    .whatsapp-btn { background: #25D366; }
+    .maps-btn { background: #28a745; }
     .message {
       color: green;
       font-size: 14px;
       text-align: center;
       margin-bottom: 10px;
+    }
+    #map {
+      height: 300px;
+      margin-top: 15px;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -62,8 +62,10 @@
   <div id="message" class="message"></div>
 
   <button onclick="getMyLocation()">📍 Ambil Lokasi Saya</button>
-  <button id="mapsBtn" class="maps-btn" style="display: none;" onclick="openInMaps()">🗺️ Buka di Google Maps</button>
-  <button id="waBtn" class="whatsapp-btn" style="display: none;" onclick="shareToWhatsApp()">📤 Kirim ke WhatsApp</button>
+  <button id="mapsBtn" class="maps-btn" style="display:none" onclick="openInMaps()">🗺️ Buka di Google Maps</button>
+  <button id="waBtn" class="whatsapp-btn" style="display:none" onclick="shareToWhatsApp()">📤 Kirim ke WhatsApp</button>
+
+  <div id="map"></div>
 
   <hr>
 
@@ -71,6 +73,7 @@
   <input type="text" id="latlon" placeholder="Contoh: -6.2, 106.8">
   <button onclick="searchByLatLon()">Cari Alamat</button>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const coordsDiv = document.getElementById("coords");
     const addressDiv = document.getElementById("address");
@@ -79,8 +82,15 @@
     const mapsBtn = document.getElementById("mapsBtn");
     const waBtn = document.getElementById("waBtn");
 
-    let lastLat = null;
-    let lastLon = null;
+    let lastLat = null, lastLon = null, marker;
+
+    const map = L.map('map').setView([0, 0], 2);
+    const esriSat = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye',
+        maxZoom: 20
+      }
+    ).addTo(map);
 
     function showMessage(text) {
       msgDiv.textContent = text;
@@ -109,6 +119,10 @@
       waBtn.style.display = "block";
       addressDiv.textContent = "Mengambil alamat...";
 
+      map.setView([lat, lon], 18);
+      if (marker) map.removeLayer(marker);
+      marker = L.marker([lat, lon]).addTo(map);
+
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
         .then(res => res.json())
         .then(data => {
@@ -134,6 +148,8 @@
         }, () => {
           coordsDiv.textContent = "Gagal mendapatkan lokasi.";
           addressDiv.textContent = "-";
+        }, {
+          enableHighAccuracy: true
         });
       } else {
         coordsDiv.textContent = "Browser tidak mendukung Geolocation.";
@@ -148,15 +164,12 @@
         showMessage("Format salah. Gunakan: lat, lon");
         return;
       }
-
-      const lat = parts[0].trim();
-      const lon = parts[1].trim();
-
+      const lat = parseFloat(parts[0].trim());
+      const lon = parseFloat(parts[1].trim());
       if (isNaN(lat) || isNaN(lon)) {
         showMessage("Koordinat tidak valid.");
         return;
       }
-
       updateLocation(lat, lon);
     }
 
@@ -168,19 +181,16 @@
 
     function shareToWhatsApp() {
       if (!lastLat || !lastLon) return;
-
       const url = `https://www.google.com/maps?q=${lastLat},${lastLon}`;
       const text = `📍 Lokasi:\nKoordinat: ${lastLat}, ${lastLon}\nMap: ${url}\nAlamat: ${addressDiv.textContent}`;
       const encoded = encodeURIComponent(text);
-      const waUrl = `https://wa.me/?text=${encoded}`;
-      window.open(waUrl, "_blank");
+      window.open(`https://wa.me/?text=${encoded}`, "_blank");
     }
 
     coordsDiv.onclick = () => {
       navigator.clipboard.writeText(coordsDiv.textContent);
       showMessage("Koordinat disalin!");
     };
-
     addressDiv.onclick = () => {
       navigator.clipboard.writeText(addressDiv.textContent);
       showMessage("Alamat disalin!");
