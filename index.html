@@ -1,62 +1,219 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SikanCuyy</title>
-  <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SikanCuyy</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* CSS Umum */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        body.dark-mode {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #1e88e5;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode h1 {
+            color: #ecf0f1;
+        }
+
+        /* Tata Letak Grid Ikon */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+            justify-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .menu-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .menu-item-icon {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5em;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .icon-circle.primary-bg { background-color: #1e88e5; }
+        .icon-circle.warning-bg { background-color: #ffb300; }
+        .icon-circle.info-bg { background-color: #00acc1; }
+        .icon-circle.success-bg { background-color: #28a745; }
+
+        body.dark-mode .icon-circle.primary-bg { background-color: #3498db; }
+        body.dark-mode .icon-circle.warning-bg { background-color: #f1c40f; }
+        body.dark-mode .icon-circle.info-bg { background-color: #1abc9c; }
+        body.dark-mode .icon-circle.success-bg { background-color: #2ecc71; }
+
+        .menu-item-icon span {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .menu-item-icon span {
+            color: #ecf0f1;
+        }
+
+        /* Footer dan Tombol Dark Mode */
+       .footer {
+    margin-top: 40px;
+    font-size: 0.8em;
+    color: #aaa;
+    text-align: center; /* Menengahkan teks footer */
+}
+
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background-color: #444;
+            color: #fff;
+        }
+    </style>
 </head>
 <body class="light-mode">
-  <div class="container menu-page">
-    <h1>StudyFin</h1>
-    <div class="menu">
-      <!-- Menu: Pengeluaran -->
-      <a href="pengeluaranharian/index.html" class="menu-item primary-btn">
-        <i class="fas fa-money-bill-wave"></i>
-        Pengeluaran
-      </a>
+    <div class="container menu-page">
+        <h1>SikanCuyy</h1>
+        <div class="menu-grid">
+            <a href="pengeluaranharian/index.html" class="menu-item-icon">
+                <div class="icon-circle primary-bg">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <span>Pengeluaran</span>
+            </a>
 
-      <!-- Menu: Input Tugas -->
-      <a href="tugaskuliah/index.html" class="menu-item warning-btn">
-        <i class="fas fa-tasks"></i>
-        Input Tugas Kuliah
-      </a>
+            <a href="tugaskuliah/index.html" class="menu-item-icon">
+                <div class="icon-circle warning-bg">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <span>Input Tugas Kuliah</span>
+            </a>
 
-      <!-- Menu: Speed Converter -->
-      <a href="konversi_jaringan/index.html" class="menu-item info-btn">
-        <i class="fas fa-tachometer-alt"></i>
-        Speed Converter Tool
-      </a>
+            <a href="konversi_jaringan/index.html" class="menu-item-icon">
+                <div class="icon-circle info-bg">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <span>Speed Converter</span>
+            </a>
 
-      <!-- Menu: Koordinat GPS -->
-      <a href="gps/index.html" class="menu-item info-btn">
-        <i class="fas fa-map-marker-alt"></i>
-        Koordinat GPS
-      </a>
+            <a href="gps/index.html" class="menu-item-icon">
+                <div class="icon-circle success-bg">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <span>Koordinat GPS</span>
+            </a>
 
-
+            <a href="spahh43_ao_order/index.html" class="menu-item-icon">
+    <div class="icon-circle primary-bg">
+        <i class="fas fa-file-invoice"></i>
     </div>
-  </div>
+    <span>Order SPAHH43</span>
+</a>
 
-  <!-- Footer -->
-  <footer class="footer">&copy; 2025 Rahmat Haikal</footer>
 
-  <!-- Tombol Toggle Dark Mode -->
-  <button id="darkModeToggle" class="dark-mode-toggle floating-toggle">🌙</button>
 
-  <!-- Script Toggle Dark Mode -->
-  <script>
-    const toggle = document.getElementById('darkModeToggle');
-    const body = document.body;
+<a href="https://rahmathaikal05.github.io/portofolio/" class="menu-item-icon" target="_blank">
+    <div class="icon-circle warning-bg">
+        <i class="fas fa-user"></i>
+    </div>
+    <span>Profil</span>
+</a>
 
-    toggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      body.classList.toggle('light-mode');
-      toggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    });
-  </script>
+<a href="https://wa.me/6282277256004" class="menu-item-icon">
+    <div class="icon-circle info-bg">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+    <span>WhatsApp</span>
+</a>
+
+            
+        </div>
+    </div>
+
+
+    <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
+                <footer class="footer">&copy; 2025 Rahmat Haikal</footer>
+
+
+    <script>
+        const toggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        toggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+            toggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+
+    </script>
 </body>
 </html>

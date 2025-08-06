@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form PSB Grid</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e9ecef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    form {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      position: relative;
+      border: 1px solid #dee2e6;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #343a40;
+      font-weight: 600;
+      font-size: 1.8rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-grid label {
+      font-size: 14px;
+      color: #6c757d;
+      font-weight: 500;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-grid input,
+    .form-grid select {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      box-sizing: border-box;
+      background-color: #f8f9fa;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .form-grid input:focus,
+    .form-grid select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      background-color: #ffffff;
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .full-row {
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+
+    .button-row {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Overlay Loading */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #loadingOverlay h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    /* Progress bar wrapper (minimalis) */
+    #progressWrapper {
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      height: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #progressBar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #1e90ff, #00bfff);
+      transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 50px;
+    }
+
+    #progressPercentage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* DONE/FAILED Animation */
+   #resultMessage {
+  font-size: 15px; /* Dikecilkan dari 32px */
+  margin-top: 25px; /* Dikecilkan dari 25px */
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+  font-weight: 300; /* Dikecilkan dari 700 */
+}
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <h3>🔄 Mengirim Data ke Telegram...</h3>
+  <div id="progressWrapper">
+    <div id="progressBar"></div>
+    <span id="progressPercentage">0%</span>
+  </div>
+  <div id="resultMessage"></div>
+</div>
+
+<form id="psbForm">
+  <h2>Form Deal PSB</h2>
+
+  <div class="form-grid">
+    <label for="noao">NO AO</label>
+    <input type="text" id="noao" required>
+
+    <label for="kkontak">KKONTAK</label>
+    <input type="text" id="kkontak" value="SPAHH43" readonly>
+
+    <label for="nama">NAMA PELANGGAN</label>
+    <input type="text" id="nama" required>
+
+    <label for="sto">STO</label>
+    <input type="text" id="sto" required>
+
+    <label for="tikor">TIKOR</label>
+    <input type="text" id="tikor" placeholder="Klik tombol atau isi manual" required>
+
+    <div class="full-row">
+      <button type="button" onclick="getLocation()">📍 Ambil Lokasi</button>
+    </div>
+
+    <label for="psb">PSB</label>
+    <select id="psb" required>
+      <option value="EZNET">EZNET</option>
+      <option value="EZNET WIRRELES">EZNET WIRRELES</option>
+      <option value="INDIHOME">INDIHOME</option>
+    </select>
+
+    <label for="paket">PAKET</label>
+    <select id="paket" required>
+      <option value="20 MBPS">20 MBPS</option>
+      <option value="50 MBPS">50 MBPS</option>
+      <option value="75 MBPS">75 MBPS</option>
+      <option value="150 MBPS">150 MBPS</option>
+      <option value="200 MBPS">200 MBPS</option>
+     <option value="10 MBPS">10 MBPS</option>
+   </select>
+
+    <label for="nohp">NO HP</label>
+    <input type="tel" id="nohp" required pattern="[0-9]+" inputmode="numeric">
+
+    <label for="cpalt">CP ALTERNATIF</label>
+    <input type="tel" id="cpalt" required pattern="[0-9]+" inputmode="numeric">
+
+    <label for="tiang">TIANG / PT2</label>
+    <input type="text" id="tiang">
+
+    <label for="tl">TL</label>
+    <input type="text" id="tl" value="M FIQRI SETIAWAN" readonly>
+  </div>
+
+  <div class="button-row">
+    <button type="submit">Input</button>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('psbForm');
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  const progressBar = document.getElementById('progressBar');
+  const progressPercentage = document.getElementById('progressPercentage');
+  const messageDiv = document.getElementById('resultMessage');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    showLoading();
+
+    const token = '7523836158:AAGPmPTl2mxikgt8lOa2xswfVLabeXx1UXU';
+    const chat_id = '@praorder_spahh43';
+
+    const noao = document.getElementById('noao').value;
+    const kkontak = document.getElementById('kkontak').value.toUpperCase();
+    const nama = document.getElementById('nama').value.toUpperCase();
+    const sto = document.getElementById('sto').value.toUpperCase();
+    const tikor = document.getElementById('tikor').value.toUpperCase();
+    const psb = document.getElementById('psb').value.toUpperCase();
+    const paket = document.getElementById('paket').value.toUpperCase();
+    const nohp = document.getElementById('nohp').value;
+    const cpalt = document.getElementById('cpalt').value;
+    const tiang = document.getElementById('tiang').value.toUpperCase();
+    const tl = document.getElementById('tl').value.toUpperCase();
+
+    const message = `/dealpsb
+NO AO : ${noao}
+KKONTAK : ${kkontak}
+NAMA PELANGGAN : ${nama}
+STO : ${sto}
+TIKOR : ${tikor}
+PSB : ${psb}
+PAKET : ${paket}
+NO HP : ${nohp}
+CP ALTERNATIF : ${cpalt}
+TIANG / PT2 : ${tiang}
+TL : ${tl}`;
+
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`;
+
+    simulateProgress(() => {
+      fetch(url)
+        .then(response => {
+          if (response.ok) {
+            form.reset();
+            hideLoading(true);  // ✅ DONE
+          } else {
+            hideLoading(false); // ❌ FAILED
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          hideLoading(false);   // ❌ FAILED
+        });
+    });
+  });
+
+  function getLocation() {
+    if (!navigator.geolocation) {
+      alert("Geolocation tidak didukung oleh browser Anda.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(position => {
+      const lat = position.coords.latitude.toFixed(6);
+      const lon = position.coords.longitude.toFixed(6);
+      document.getElementById('tikor').value = `${lat}, ${lon}`;
+    }, () => {
+      alert("❌ Gagal mengambil lokasi.");
+    }, {
+      enableHighAccuracy: true
+    });
+  }
+
+  function showLoading() {
+    loadingOverlay.style.display = 'flex';
+    progressBar.style.width = '0%';
+    progressPercentage.innerText = '0%';
+    messageDiv.innerHTML = '';
+    messageDiv.style.animation = '';
+    
+    // Hide the main form while loading
+    form.style.display = 'none';
+  }
+
+  function simulateProgress(callback) {
+    let width = 0;
+    const interval = setInterval(() => {
+      if (width >= 90) {
+        clearInterval(interval);
+        callback();
+      } else {
+        width += Math.floor(Math.random() * 10) + 5;
+        if (width > 90) width = 90;
+        progressBar.style.width = width + '%';
+        progressPercentage.innerText = width + '%';
+      }
+    }, 200);
+  }
+
+  function hideLoading(success) {
+    progressBar.style.width = '100%';
+    progressPercentage.innerText = '100%';
+
+    messageDiv.innerHTML = success ? "Sukses" : "Gagal";
+    messageDiv.style.color = success ? "#00ff99" : "#ff4444";
+    messageDiv.style.opacity = "0";
+
+    setTimeout(() => {
+      messageDiv.style.animation = "fadeIn 0.8s ease forwards";
+    }, 100);
+
+    setTimeout(() => {
+      loadingOverlay.style.display = 'none';
+      progressBar.style.width = '0%';
+      progressPercentage.innerText = '0%';
+      messageDiv.innerHTML = '';
+      messageDiv.style.animation = '';
+      form.style.display = 'block'; // Show the form again
+    }, 2000);
+  }
+</script>
+
+</body>
+</html>
