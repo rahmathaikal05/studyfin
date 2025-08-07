@@ -121,28 +121,11 @@
             transition: color 0.3s ease;
         }
 
-        .map-link-container {
+        .map-container {
             width: 100%;
             max-width: 700px;
-            text-align: center;
+            aspect-ratio: 1 / 1; /* Make the map container a 1:1 square */
             margin-top: 20px;
-        }
-        
-        .map-link-container a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-
-        .map-link-container a:hover {
-            text-decoration: underline;
-        }
-        
-        #map-container {
-            width: 100%;
-            max-width: 700px;
-            margin-top: 20px;
-            height: 400px;
         }
 
         #map {
@@ -191,11 +174,15 @@
         <div><label>TIKOR</label><input type="text" id="tikor"></div>
         
         <div class="lokasi-container">
-        
-          <label>LOK (klik untuk salin)</label>
-          <input type="text" id="lok" readonly onclick="salinAlamat()">
-          <button type="button" class="ambil-lokasi-btn" onclick="ambilLokasiSaatIni()">Ambil Lokasi Saat Ini</button>
+            <label>LOK (klik untuk salin)</label>
+            <input type="text" id="lok" readonly onclick="salinAlamat()">
+            <button type="button" class="ambil-lokasi-btn" onclick="ambilLokasiSaatIni()">Ambil Lokasi Saat Ini</button>
         </div>
+        
+        <div class="full-width map-container">
+            <iframe id="map" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
         <div><label>PSB</label><select id="psb">
             <option>EZNET</option>
             <option>INDIHOME</option>
@@ -213,19 +200,8 @@
         <div><label>CP ALTERNATIF</label><input type="text" id="cpalt"></div>
         <div><label>TIANG / PT2</label><input type="text" id="tiang"></div>
         <div><label>TL</label><input type="text" id="tl"></div>
-       
     </div>
 </form>
-
-<div id="map-container">
-    <iframe id="map" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
-
-<div class="map-link-container">
-    <a href="#" id="mapLink" target="_blank" style="display:none" onclick="return cekTikorSebelumBukaMap()">Lihat Lokasi di Google Maps</a>
-</div>
-
-<hr>
 
 <script>
     const BOT_TOKEN = "7523836158:AAGPmPTl2mxikgt8lOa2xswfVLabeXx1UXU";
@@ -234,13 +210,12 @@
     const rawInput = document.getElementById("rawInput");
     const lokInput = document.getElementById("lok");
     const tikorInput = document.getElementById("tikor");
-    const mapLink = document.getElementById("mapLink");
     const mapIframe = document.getElementById("map");
 
-    // Event listener untuk menghapus spasi dari TIKOR dan memperbarui peta
+    // Event listener for input on TIKOR to clean up spaces and update the map
     tikorInput.addEventListener("input", () => {
         tikorInput.value = tikorInput.value.replace(/\s/g, '');
-        updateMapAndLink(tikorInput.value);
+        updateMap(tikorInput.value);
     });
 
     function scrollAtas() {
@@ -276,7 +251,7 @@
         lokInput.value = "";
         statusMessage.textContent = "";
         document.getElementById("photoInput").value = null;
-        updateMapAndLink("");
+        updateMap("");
     }
     
     function parseData(text) {
@@ -328,37 +303,25 @@
                 const alamat = await ambilAlamatDariKoordinat(lat, lon);
                 lokInput.value = alamat;
             }
-            updateMapAndLink(tikorTanpaSpasi);
+            updateMap(tikorTanpaSpasi);
         } else {
-            updateMapAndLink("");
+            updateMap("");
         }
     }
 
     rawInput.addEventListener("input", isiOtomatisDariInput);
 
-    function updateMapAndLink(tikor) {
+    function updateMap(tikor) {
         if (tikor && tikor.includes(",")) {
             const [lat, lon] = tikor.split(",").map(s => s.trim());
-            const mapsUrl = `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+            // Use Google Maps with satellite view (t=k for satellite)
+            const mapsUrl = `https://maps.google.com/maps?q=${lat},${lon}&hl=id&z=17&t=k&output=embed`;
             mapIframe.src = mapsUrl;
-            mapLink.href = `https://maps.google.com/maps?q=${lat},${lon}`;
-            mapLink.style.display = "inline";
         } else {
             mapIframe.src = "";
-            mapLink.href = "#";
-            mapLink.style.display = "none";
         }
     }
     
-    function cekTikorSebelumBukaMap() {
-        const tikor = tikorInput.value;
-        if (!tikor || !tikor.includes(",")) {
-            alert("Kolom TIKOR kosong atau format tidak valid. Mohon isi koordinat terlebih dahulu.");
-            return false;
-        }
-        return true;
-    }
-
     function ambilLokasiSaatIni() {
         if ("geolocation" in navigator) {
             statusMessage.textContent = "Mengambil lokasi...";
@@ -369,7 +332,7 @@
                 const tikor = `${lat},${lon}`;
                 
                 tikorInput.value = tikor;
-                updateMapAndLink(tikor);
+                updateMap(tikor);
 
                 lokInput.value = "Mengambil alamat...";
                 const alamat = await ambilAlamatDariKoordinat(lat, lon);
@@ -398,7 +361,8 @@
         let textMessage = `/dealpsb\nNO AO : ${noao.value}\nKKONTAK : ${kkontak.value}\nNAMA PELANGGAN : ${nama.value}\nSTO : ${sto.value}\nTIKOR : ${tikor}\nPSB : ${psb.value}\nPAKET : ${paket.value}\nNO HP : ${nohp.value}\nCP ALTERNATIF : ${cpalt.value}\nTIANG / PT2 : ${tiang.value}\nTL : ${tl.value}\nLOK : ${lokInput.value}`;
         
         if (tikor && tikor.includes(",")) {
-            textMessage += `\n\nMaps: https://maps.google.com/maps?q=${tikor}`;
+            const [lat, lon] = tikor.split(",").map(s => s.trim());
+            textMessage += `\n\nMaps: https://www.google.com/maps?q=${lat},${lon}`;
         }
 
         const photoInput = document.getElementById("photoInput");
