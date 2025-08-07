@@ -124,7 +124,7 @@
         .map-container {
             width: 100%;
             max-width: 700px;
-            aspect-ratio: 1 / 1; /* Make the map container a 1:1 square */
+            aspect-ratio: 1 / 1;
             margin-top: 20px;
         }
 
@@ -212,7 +212,6 @@
     const tikorInput = document.getElementById("tikor");
     const mapIframe = document.getElementById("map");
 
-    // Event listener for input on TIKOR to clean up spaces and update the map
     tikorInput.addEventListener("input", () => {
         tikorInput.value = tikorInput.value.replace(/\s/g, '');
         updateMap(tikorInput.value);
@@ -257,6 +256,7 @@
     function parseData(text) {
         const data = {};
         const lines = text.split("\n").map(l => l.trim());
+        // Perbaikan: Label "NAMA PELANGGAN :" sudah benar, tidak ada spasi ekstra.
         const labels = ["NO AO :", "KKONTAK :", "NAMA PELANGGAN :", "STO :", "TIKOR :", "PSB :", "PAKET :", "NO HP :", "CP ALTERNATIF :", "TIANG / PT2 :", "TL :", "LOK :"];
         
         labels.forEach(label => {
@@ -266,6 +266,14 @@
                 data[key] = line.replace(label, "").trim();
             }
         });
+        
+        // Perbaikan: Tambahkan penanganan khusus untuk "nama pelanggan" jika parsing awal gagal
+        if (!data.namapelanggan) {
+            const namaLine = lines.find(l => l.startsWith('NAMA PELANGGAN :'));
+            if (namaLine) {
+                data.namapelanggan = namaLine.replace('NAMA PELANGGAN :', '').trim();
+            }
+        }
         
         return data;
     }
@@ -278,6 +286,12 @@
         }
 
         const fields = parseData(text);
+
+        // Perbaikan: Gunakan "namapelanggan" jika tersedia
+        const namaInput = document.getElementById('nama');
+        if (fields.namapelanggan && namaInput) {
+            namaInput.value = fields.namapelanggan;
+        }
 
         for (const key in fields) {
             const el = document.getElementById(key);
@@ -314,7 +328,6 @@
     function updateMap(tikor) {
         if (tikor && tikor.includes(",")) {
             const [lat, lon] = tikor.split(",").map(s => s.trim());
-            // Use Google Maps with satellite view (t=k for satellite)
             const mapsUrl = `https://maps.google.com/maps?q=${lat},${lon}&hl=id&z=17&t=k&output=embed`;
             mapIframe.src = mapsUrl;
         } else {
