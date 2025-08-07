@@ -1,275 +1,453 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SikanCuyy</title>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="fv.png" type="image/x-icon">
+    <title>Form Deal PSB</title>
     <style>
-        /* CSS Umum */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e9ecef;
             margin: 0;
-            padding: 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        body.light-mode {
-            background-color: #f0f2f5;
-            color: #333;
-        }
-
-        body.dark-mode {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
             padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #1e88e5;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode h1 {
-            color: #ecf0f1;
-        }
-
-        /* Tata Letak Grid Ikon */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-            justify-items: center;
-        }
-
-        @media (min-width: 768px) {
-            .menu-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .menu-item-icon {
-            text-decoration: none;
-            color: inherit;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
+            min-height: 100vh;
+        }
+
+        textarea, input, select {
             width: 100%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .menu-item-icon:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .icon-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5em;
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
             margin-bottom: 10px;
-            transition: background-color 0.3s ease;
+            box-sizing: border-box;
         }
 
-        .icon-circle.primary-bg {
-            background-color: #1e88e5;
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .icon-circle.warning-bg {
-            background-color: #ffb300;
+        button:hover {
+            background-color: #0056b3;
         }
 
-        .icon-circle.info-bg {
-            background-color: #00acc1;
+        .clear-btn {
+            background-color: #dc3545;
         }
 
-        .icon-circle.success-bg {
+        .clear-btn:hover {
+            background-color: #c82333;
+        }
+
+        form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 700px;
+            justify-content: center;
+        }
+
+        #lok {
+            cursor: pointer;
+            background-color: #f8f8f8;
+        }
+        
+        .lokasi-container {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ambil-lokasi-btn {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 12px;
             background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
 
-        body.dark-mode .icon-circle.primary-bg {
-            background-color: #3498db;
+        .ambil-lokasi-btn:hover {
+            background-color: #218838;
         }
 
-        body.dark-mode .icon-circle.warning-bg {
-            background-color: #f1c40f;
-        }
-
-        body.dark-mode .icon-circle.info-bg {
-            background-color: #1abc9c;
-        }
-
-        body.dark-mode .icon-circle.success-bg {
-            background-color: #2ecc71;
-        }
-
-        .menu-item-icon span {
-            font-size: 0.9em;
-            font-weight: 500;
-            color: #555;
+        #statusMessage {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
             transition: color 0.3s ease;
         }
 
-        body.dark-mode .menu-item-icon span {
-            color: #ecf0f1;
-        }
-
-        /* Footer dan Tombol Dark Mode */
-        .footer {
-            margin-top: 40px;
-            font-size: 0.8em;
-            color: #aaa;
+        .map-link-container {
+            width: 100%;
+            max-width: 700px;
             text-align: center;
-            /* Menengahkan teks footer */
+            margin-top: 20px;
+        }
+        
+        .map-link-container a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
         }
 
-        .dark-mode-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
+        .map-link-container a:hover {
+            text-decoration: underline;
+        }
+        
+        #map-container {
+            width: 100%;
+            max-width: 700px;
+            margin-top: 20px;
+            height: 400px;
         }
 
-        body.dark-mode .dark-mode-toggle {
-            background-color: #444;
-            color: #fff;
+        #map {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        
+        @media(max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .lokasi-container {
+                grid-column: span 1;
+            }
         }
     </style>
 </head>
+<body>
 
-<body class="light-mode">
-    <div class="container menu-page">
-        <h1>SikanCuyy</h1>
-        <div class="menu-grid">
+<textarea id="rawInput" rows="10" placeholder="Tempelkan data /dealpsb di sini..."></textarea>
 
+<div class="button-group">
+    <button type="button" class="clear-btn" onclick="resetForm()">Clear</button>
+    <button onclick="kirimKeTelegram()">Kirim ke Telegram</button>
+</div>
 
-            <a href="https://rahmathaikal05.github.io/portofolio/" class="menu-item-icon">
-                <div class="icon-circle warning-bg">
-                    <i class="fas fa-user"></i>
-                </div>
-                <span>Profil</span>
-            </a>
+<div id="statusMessage"></div>
 
-
-            <a href="https://wa.me/6282277256004" class="menu-item-icon">
-                <div class="icon-circle info-bg">
-                    <i class="fab fa-whatsapp"></i>
-                </div>
-                <span>WhatsApp</span>
-            </a>
-
-
-
-            <a href="pengeluaranharian/index.html" class="menu-item-icon">
-                <div class="icon-circle primary-bg">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <span>Pengeluaran</span>
-            </a>
-
-            <a href="tugaskuliah/index.html" class="menu-item-icon">
-                <div class="icon-circle warning-bg">
-                    <i class="fas fa-tasks"></i>
-                </div>
-                <span>Input Tugas Kuliah</span>
-            </a>
-
-            <a href="konversi_jaringan/index.html" class="menu-item-icon">
-                <div class="icon-circle info-bg">
-                    <i class="fas fa-tachometer-alt"></i>
-                </div>
-                <span>Speed Converter</span>
-            </a>
-
-            <a href="gps/index.html" class="menu-item-icon">
-                <div class="icon-circle success-bg">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <span>Koordinat GPS</span>
-            </a>
-
-            <!-- Menu Dashboard -->
-            <a href="https://rahmathaikal05.github.io/rahmathaikal05/" class="menu-item-icon">
-                <div class="icon-circle success-bg">
-                    <i class="fas fa-th-large"></i> <!-- ikon list barang -->
-                </div>
-                <span>Dashboard</span>
-            </a>
-
-
-            <!-- Menu Order SPAHH43 -->
-            <a href="spahh43_ao_order/index.html" class="menu-item-icon">
-                <div class="icon-circle primary-bg">
-                    <i class="fas fa-file-invoice"></i>
-                </div>
-                <span>Order SPAHH43</span>
-            </a>
-
-            <!-- Menu Brosur -->
-            <a href="https://rahmathaikal05.github.io/idh-promotor/#eznet" class="menu-item-icon">
-                <div class="icon-circle info-bg">
-                    <i class="fas fa-file-alt"></i> <!-- ikon brosur -->
-                </div>
-                <span>Brosur</span>
-            </a>
-            
-            <!-- Menu Pengeluaran Publik -->
-            <a href="https://rahmathaikal05.github.io/publik-ph/" class="menu-item-icon">
-                <div class="icon-circle warning-bg">
-                    <i class="fas fa-file-invoice-dollar"></i> <!-- ikon pengeluaran -->
-                </div>
-                <span>Pengeluaran Publik</span>
-            </a>
-
-
-
+<form id="psbForm">
+    <h2>Form Deal PSB</h2>
+    <div class="form-grid">
+        <div class="full-width">
+            <label>Unggah Foto</label>
+            <input type="file" id="photoInput" accept="image/*">
         </div>
+        
+        <div><label>NO AO</label><input type="text" id="noao"></div>
+        <div><label>KKONTAK</label><input type="text" id="kkontak"></div>
+        <div><label>NAMA PELANGGAN</label><input type="text" id="nama"></div>
+        <div><label>STO</label><input type="text" id="sto"></div>
+        <div><label>TIKOR</label><input type="text" id="tikor"></div>
+        
+        <div class="lokasi-container">
+        
+          <label>LOK (klik untuk salin)</label>
+          <input type="text" id="lok" readonly onclick="salinAlamat()">
+          <button type="button" class="ambil-lokasi-btn" onclick="ambilLokasiSaatIni()">Ambil Lokasi Saat Ini</button>
+        </div>
+        <div><label>PSB</label><select id="psb">
+            <option>EZNET</option>
+            <option>INDIHOME</option>
+            <option>EZNET WIRRELES</option>
+        </select></div>
+        <div><label>PAKET</label><select id="paket">
+            <option>20 MBPS</option>
+            <option>50 MBPS</option>
+            <option>75 MBPS</option>
+            <option>150 MBPS</option>
+            <option>200 MBPS</option>
+            <option>10 MBPS</option>
+        </select></div>
+        <div><label>NO HP</label><input type="text" id="nohp"></div>
+        <div><label>CP ALTERNATIF</label><input type="text" id="cpalt"></div>
+        <div><label>TIANG / PT2</label><input type="text" id="tiang"></div>
+        <div><label>TL</label><input type="text" id="tl"></div>
+       
     </div>
+</form>
 
+<div id="map-container">
+    <iframe id="map" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
 
-    <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
-    <footer class="footer">&copy; 2025 Rahmat Haikal</footer>
+<div class="map-link-container">
+    <a href="#" id="mapLink" target="_blank" style="display:none" onclick="return cekTikorSebelumBukaMap()">Lihat Lokasi di Google Maps</a>
+</div>
 
+<hr>
 
-    <script>
-        const toggle = document.getElementById('darkModeToggle');
-        const body = document.body;
+<script>
+    const BOT_TOKEN = "7523836158:AAGPmPTl2mxikgt8lOa2xswfVLabeXx1UXU";
+    const CHAT_ID = "@praorder_spahh43";
+    const statusMessage = document.getElementById("statusMessage");
+    const rawInput = document.getElementById("rawInput");
+    const lokInput = document.getElementById("lok");
+    const tikorInput = document.getElementById("tikor");
+    const mapLink = document.getElementById("mapLink");
+    const mapIframe = document.getElementById("map");
 
-        toggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            body.classList.toggle('light-mode');
-            toggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    // Event listener untuk menghapus spasi dari TIKOR dan memperbarui peta
+    tikorInput.addEventListener("input", () => {
+        tikorInput.value = tikorInput.value.replace(/\s/g, '');
+        updateMapAndLink(tikorInput.value);
+    });
+
+    function scrollAtas() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function ambilAlamatDariKoordinat(lat, lon) {
+        if (!lat || !lon) return "";
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+
+        try {
+            const response = await fetch(url, { headers: { 'Accept-Language': 'id', 'User-Agent': 'Form Deal PSB App' } });
+            const data = await response.json();
+            return data.display_name || `Dekat koordinat: ${lat}, ${lon}`;
+        } catch (error) {
+            console.error("Gagal mengambil alamat:", error);
+            return `Dekat koordinat: ${lat}, ${lon}`;
+        }
+    }
+
+    function salinAlamat() {
+        const text = lokInput.value;
+        if (text) {
+            navigator.clipboard.writeText(text)
+                .then(() => alert("Alamat disalin ke clipboard!"))
+                .catch(() => alert("Gagal menyalin."));
+        }
+    }
+    
+    function resetForm() {
+        document.getElementById("psbForm").reset();
+        rawInput.value = "";
+        lokInput.value = "";
+        statusMessage.textContent = "";
+        document.getElementById("photoInput").value = null;
+        updateMapAndLink("");
+    }
+    
+    function parseData(text) {
+        const data = {};
+        const lines = text.split("\n").map(l => l.trim());
+        const labels = ["NO AO :", "KKONTAK :", "NAMA PELANGGAN :", "STO :", "TIKOR :", "PSB :", "PAKET :", "NO HP :", "CP ALTERNATIF :", "TIANG / PT2 :", "TL :", "LOK :"];
+        
+        labels.forEach(label => {
+            const line = lines.find(l => l.startsWith(label));
+            if (line) {
+                const key = label.replace(/ :/, "").toLowerCase().replace(/ /g, "").replace(/\//g, "").replace(/-/g, "");
+                data[key] = line.replace(label, "").trim();
+            }
         });
+        
+        return data;
+    }
 
+    async function isiOtomatisDariInput() {
+        const text = rawInput.value.trim();
+        if (!text.includes("/dealpsb")) {
+            resetForm();
+            return;
+        }
 
-    </script>
+        const fields = parseData(text);
+
+        for (const key in fields) {
+            const el = document.getElementById(key);
+            if (el) {
+                if (el.tagName === 'SELECT') {
+                    const optionExists = Array.from(el.options).some(opt => opt.value === fields[key]);
+                    if (optionExists) {
+                        el.value = fields[key];
+                    }
+                } else {
+                    el.value = fields[key];
+                }
+            }
+        }
+
+        if (fields.tikor) {
+            const tikorTanpaSpasi = fields.tikor.replace(/\s/g, '');
+            tikorInput.value = tikorTanpaSpasi;
+            
+            if (!fields.lok) {
+                lokInput.value = "Mengambil alamat...";
+                const [lat, lon] = tikorTanpaSpasi.split(",").map(s => s.trim());
+                const alamat = await ambilAlamatDariKoordinat(lat, lon);
+                lokInput.value = alamat;
+            }
+            updateMapAndLink(tikorTanpaSpasi);
+        } else {
+            updateMapAndLink("");
+        }
+    }
+
+    rawInput.addEventListener("input", isiOtomatisDariInput);
+
+    function updateMapAndLink(tikor) {
+        if (tikor && tikor.includes(",")) {
+            const [lat, lon] = tikor.split(",").map(s => s.trim());
+            const mapsUrl = `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+            mapIframe.src = mapsUrl;
+            mapLink.href = `https://maps.google.com/maps?q=${lat},${lon}`;
+            mapLink.style.display = "inline";
+        } else {
+            mapIframe.src = "";
+            mapLink.href = "#";
+            mapLink.style.display = "none";
+        }
+    }
+    
+    function cekTikorSebelumBukaMap() {
+        const tikor = tikorInput.value;
+        if (!tikor || !tikor.includes(",")) {
+            alert("Kolom TIKOR kosong atau format tidak valid. Mohon isi koordinat terlebih dahulu.");
+            return false;
+        }
+        return true;
+    }
+
+    function ambilLokasiSaatIni() {
+        if ("geolocation" in navigator) {
+            statusMessage.textContent = "Mengambil lokasi...";
+            statusMessage.style.color = "black";
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const tikor = `${lat},${lon}`;
+                
+                tikorInput.value = tikor;
+                updateMapAndLink(tikor);
+
+                lokInput.value = "Mengambil alamat...";
+                const alamat = await ambilAlamatDariKoordinat(lat, lon);
+                lokInput.value = alamat;
+
+                statusMessage.textContent = "✅ Lokasi berhasil diambil!";
+                statusMessage.style.color = "green";
+            }, (error) => {
+                statusMessage.textContent = `❌ Gagal mengambil lokasi: ${error.message}`;
+                statusMessage.style.color = "red";
+                console.error("Geolocation Error:", error);
+            });
+        } else {
+            alert("Browser Anda tidak mendukung Geolocation API.");
+            statusMessage.textContent = "❌ Geolocation tidak didukung.";
+            statusMessage.style.color = "red";
+        }
+    }
+
+    async function kirimKeTelegram() {
+        statusMessage.textContent = "Mengirim...";
+        statusMessage.style.color = "black";
+        
+        const tikor = tikorInput.value;
+        
+        let textMessage = `/dealpsb\nNO AO : ${noao.value}\nKKONTAK : ${kkontak.value}\nNAMA PELANGGAN : ${nama.value}\nSTO : ${sto.value}\nTIKOR : ${tikor}\nPSB : ${psb.value}\nPAKET : ${paket.value}\nNO HP : ${nohp.value}\nCP ALTERNATIF : ${cpalt.value}\nTIANG / PT2 : ${tiang.value}\nTL : ${tl.value}\nLOK : ${lokInput.value}`;
+        
+        if (tikor && tikor.includes(",")) {
+            textMessage += `\n\nMaps: https://maps.google.com/maps?q=${tikor}`;
+        }
+
+        const photoInput = document.getElementById("photoInput");
+        const file = photoInput.files[0];
+
+        try {
+            if (file) {
+                const formData = new FormData();
+                formData.append('chat_id', CHAT_ID);
+                formData.append('photo', file);
+                formData.append('caption', textMessage);
+                
+                const photoResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!photoResponse.ok) {
+                    const errorData = await photoResponse.json();
+                    throw new Error(errorData.description || "Gagal mengirim foto.");
+                }
+
+            } else {
+                const textResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: textMessage })
+                });
+
+                if (!textResponse.ok) {
+                    const errorData = await textResponse.json();
+                    throw new Error(errorData.description || "Gagal mengirim teks.");
+                }
+            }
+
+            statusMessage.textContent = "✅ Data berhasil dikirim ke Telegram!";
+            statusMessage.style.color = "green";
+            setTimeout(() => {
+                resetForm();
+                scrollAtas();
+            }, 1000);
+            
+        } catch (err) {
+            statusMessage.textContent = `❌ Terjadi kesalahan: ${err.message}`;
+            statusMessage.style.color = "red";
+            console.error(err);
+        }
+    }
+</script>
+
 </body>
-
 </html>
