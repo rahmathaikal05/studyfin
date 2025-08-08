@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Mbps ⇄ MB/s</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Kalkulator Konversi</h1>
+    <p><strong>1 Byte = 8 bit</strong></p>
+    <div class="converter">
+      <label for="mbps">Mbps (Megabit per detik)</label>
+      <input type="number" id="mbps" placeholder="Contoh: 100" oninput="convertFromMbps()" />
+
+      <label for="mbs">MB/s (Megabyte per detik)</label>
+      <input type="number" id="mbs" placeholder="Contoh: 12.5" oninput="convertFromMBs()" />
+    </div>
+  </div>
+
+  <script>
+    function convertFromMbps() {
+      const mbps = parseFloat(document.getElementById("mbps").value);
+      if (!isNaN(mbps)) {
+        document.getElementById("mbs").value = (mbps * 0.125).toFixed(2);
+      } else {
+        document.getElementById("mbs").value = "";
+      }
+    }
+
+    function convertFromMBs() {
+      const mbs = parseFloat(document.getElementById("mbs").value);
+      if (!isNaN(mbs)) {
+        document.getElementById("mbps").value = (mbs * 8).toFixed(2);
+      } else {
+        document.getElementById("mbps").value = "";
+      }
+    }
+  </script>
+</body>
+</html>

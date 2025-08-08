@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator PPN</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        .input-group-addon {
+            padding: 12px;
+            background-color: #eee;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            font-weight: bold;
+            color: #555;
+        }
+        .input-group input {
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+        .input-group.percent input {
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .result-group {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e9f5e9;
+            border: 1px solid #d4ead4;
+            border-radius: 4px;
+            text-align: left;
+        }
+        .result-group p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .result-group p.total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e7d32;
+            border-top: 1px solid #d4ead4;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kalkulator PPN</h1>
+
+    <div class="form-group">
+        <label for="uang">Harga Pokok (IDR)</label>
+        <div class="input-group">
+            <span class="input-group-addon">IDR</span>
+            <input type="text" id="uang" placeholder="Masukkan harga pokok" oninput="formatAndCalculate()">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="ppn">PPN (%)</label>
+        <div class="input-group percent">
+            <input type="number" id="ppn" value="11" min="0" oninput="calculate()">
+            <span class="input-group-addon">%</span>
+        </div>
+    </div>
+    
+    <div class="result-group">
+        <p id="harga-pokok">Harga Pokok: IDR 0</p>
+        <p id="result-ppn">PPN (11%): IDR 0</p>
+        <p class="total" id="result-total">Total Setelah PPN: IDR 0</p>
+    </div>
+</div>
+
+<script>
+    function formatRupiah(number) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(number);
+    }
+
+    function calculate() {
+        const uangInput = document.getElementById('uang');
+        const ppnInput = document.getElementById('ppn');
+        
+        const hargaPokokDiv = document.getElementById('harga-pokok');
+        const resultPpnDiv = document.getElementById('result-ppn');
+        const resultTotalDiv = document.getElementById('result-total');
+
+        const uangValue = uangInput.value.replace(/\D/g, ''); 
+        const ppnValue = parseFloat(ppnInput.value);
+
+        let hargaPokok = 0;
+        let ppn = 0;
+        let total = 0;
+
+        if (!isNaN(uangValue) && uangValue > 0) {
+            hargaPokok = parseInt(uangValue);
+
+            if (!isNaN(ppnValue) && ppnValue >= 0) {
+                ppn = (hargaPokok * ppnValue) / 100;
+            }
+            
+            total = hargaPokok + ppn;
+        }
+
+        hargaPokokDiv.textContent = `Harga Pokok: ${formatRupiah(hargaPokok)}`;
+        resultPpnDiv.textContent = `PPN (${ppnValue}%): ${formatRupiah(ppn)}`;
+        resultTotalDiv.textContent = `Total Setelah PPN: ${formatRupiah(total)}`;
+    }
+
+    function formatAndCalculate() {
+        const uangInput = document.getElementById('uang');
+        let value = uangInput.value.replace(/\D/g, ''); 
+        if (value) {
+            uangInput.value = parseInt(value).toLocaleString('id-ID');
+        }
+        calculate();
+    }
+    
+    document.addEventListener('DOMContentLoaded', formatAndCalculate);
+</script>
+
+</body>
+</html>
