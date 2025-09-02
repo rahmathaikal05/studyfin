@@ -4,49 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tugas Kuliah</title>
-  <link rel="stylesheet" href="style.css">
-  
-
-  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-  <link rel="manifest" href="manifest.json">
-
-
+  <link rel="icon" href="D:/RAHMAT/ICO/logo_poltek.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div class="container">
     <form id="task-form" method="POST" enctype="multipart/form-data">
       <h4>Form Tugas Kuliah</h4>
-
-    <!-- Tombol Floating Kembali 
-<a href="https://rahmathaikal05.github.io/studyfin/" class="floating-back-button" aria-label="Kembali">
-  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-  </svg>
-</a> -->
-
-<!-- CSS -->
-<style>
-.floating-back-button {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 44px;
-  height: 44px;
-  background-color: rgb(0, 0, 0);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  z-index: 9999;
-  transition: all 0.2s ease;
-}
-
-.floating-back-button:hover {
-  background-color: #ff0000;
-  transform: scale(1.1);
-}
-</style>
 
       <label for="TanggalDiberikan">Tanggal Diberikan</label>
       <input type="date" id="TanggalDiberikan" name="Diberikan" required />
@@ -65,28 +31,48 @@
       </select>
 
       <label for="MataKuliah">Mata Kuliah</label>
-      <select>
-  <option value="">Pilih Mata Kuliah</option>
-  <option value="Prak. Pengolahan Sinyal Digital">Prak. Pengolahan Sinyal Digital</option>
-  <option value="Rangkaian Elektronika Telekomunikasi">Rangkaian Elektronika Telekomunikasi</option>
-  <option value="Pengolahan Sinyal Digital">Pengolahan Sinyal Digital</option>
-  <option value="Mikrokontroller">Mikrokontroller</option>
-  <option value="Praktikum Rangkaian Elektronika Digital">Praktikum Rangkaian Elektronika Digital</option>
-  <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
-  <option value="Prakt. Rangkaian Elektronika Digital">Prakt. Rangkaian Elektronika Digital</option>
-  <option value="Algoritma dan Pemrograman">Algoritma dan Pemrograman</option>
-</select>
-
-      <label for="TextFormat">Format Teks</label>
-      <select id="TextFormat">
-        <option value="default">Normal</option>
-        <option value="uppercase">Uppercase (HURUF BESAR SEMUA)</option>
-        <option value="lowercase">Lowercase (huruf kecil semua)</option>
-        <option value="capitalize">Capitalize (Setiap Kata Kapital)</option>
-        <option value="sentence">Sentence Case (Awal kalimat kapital)</option>
-        <option value="title">Title Case (Judul Dengan Kapitalisasi Kata Penting)</option>
-        <option value="inverse">Inverse Case (kAPiTaL BeRaNTaKaN)</option>
+      <select id="MataKuliah" name="MK" required>
+        <option value="">Pilih Mata Kuliah</option>
+        <option value="Prak. Pengolahan Sinyal Digital">Prak. Pengolahan Sinyal Digital</option>
+        <option value="Rangkaian Elektronika Telekomunikasi">Rangkaian Elektronika Telekomunikasi</option>
+        <option value="Pengolahan Sinyal Digital">Pengolahan Sinyal Digital</option>
+        <option value="Mikrokontroller">Mikrokontroller</option>
+        <option value="Praktikum Rangkaian Elektronika Digital">Praktikum Rangkaian Elektronika Digital</option>
+        <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
+        <option value="Prakt. Rangkaian Elektronika Digital">Prakt. Rangkaian Elektronika Digital</option>
+        <option value="Algoritma dan Pemrograman">Algoritma dan Pemrograman</option>
       </select>
+
+      <label>Pilihan Format Teks</label>
+      <div class="format-buttons">
+        <input type="radio" id="format-default" name="text-format" value="default" checked>
+        <label for="format-default" class="format-label" title="Normal">
+          <i class="fa-solid fa-font"></i><span>Normal</span>
+        </label>
+
+        <input type="radio" id="format-uppercase" name="text-format" value="uppercase">
+        <label for="format-uppercase" class="format-label" title="Uppercase">
+          <i class="fa-solid fa-arrow-up-a-z"></i><span>UPPER</span>
+        </label>
+
+        <input type="radio" id="format-lowercase" name="text-format" value="lowercase">
+        <label for="format-lowercase" class="format-label" title="Lowercase">
+          <i class="fa-solid fa-arrow-down-a-z"></i><span>lower</span>
+        </label>
+
+        <input type="radio" id="format-capitalize" name="text-format" value="capitalize">
+        <label for="format-capitalize" class="format-label" title="Capitalize">
+          <i class="fa-solid fa-a"></i><span>Cap</span>
+        </label>
+
+
+        <input type="radio" id="format-title" name="text-format" value="title">
+        <label for="format-title" class="format-label" title="Title Case">
+          <i class="fa-solid fa-heading"></i><span>Title</span>
+        </label>
+
+        </label>
+      </div>
 
       <label for="TugasDiberikan">Tugas Yang Diberikan</label>
       <textarea id="TugasDiberikan" name="Tugas Yang Diberikan" rows="4" required></textarea>
@@ -102,10 +88,6 @@
   <div class="loading-overlay" id="loading-overlay">
     <div class="loading-spinner"></div>
   </div>
-
-
-
-
 
 <script src="script.js"></script>
 </body>
