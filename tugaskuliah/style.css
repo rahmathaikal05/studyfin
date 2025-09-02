@@ -141,11 +141,11 @@ textarea {
   }
 }
 
-/* --- Gaya Tombol Format Teks --- */
+/* --- Gaya Tombol Format Teks (Diperkecil) --- */
 .format-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px; /* Mengurangi jarak antar tombol */
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
@@ -162,12 +162,12 @@ textarea {
   align-items: center;
   justify-content: center;
   /* Mengatur ukuran tombol */
-  width: 65px;
-  height: 65px;
+  width: 50px; /* Mengurangi lebar */
+  height: 50px; /* Mengurangi tinggi */
   /* Styling tombol */
   background-color: var(--bg-light);
   border: 2px solid var(--dark-yellow);
-  border-radius: 12px;
+  border-radius: 10px; /* Mengurangi border-radius agar proporsional */
   cursor: pointer;
   transition: all 0.3s ease;
   color: var(--dark-yellow);
@@ -175,14 +175,14 @@ textarea {
 
 /* Tampilan ikon di dalam tombol */
 .format-buttons .format-label i {
-  font-size: 1.5rem;
-  line-height: 1; /* Menghapus spasi ekstra di bawah ikon */
+  font-size: 1.2rem; /* Mengurangi ukuran ikon */
+  line-height: 1;
 }
 
 /* Tampilan teks di dalam tombol */
 .format-buttons .format-label span {
-  font-size: 0.7rem;
-  margin-top: 4px;
+  font-size: 0.6rem; /* Mengurangi ukuran teks */
+  margin-top: 3px; /* Menyesuaikan jarak atas */
 }
 
 /* Efek saat tombol di-hover */
