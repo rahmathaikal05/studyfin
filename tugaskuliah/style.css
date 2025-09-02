@@ -1,11 +1,13 @@
+/* --- Variabel Warna --- */
 :root {
   --primary-yellow: #facc15;
   --secondary-yellow: #fef3c7;
   --dark-yellow: #d97706;
   --text-dark: #1f2937;
-  --bg-light: #fff8e1;
+  --bg-light: #ffffff;
 }
 
+/* --- Pengaturan Dasar --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -90,6 +92,7 @@ textarea {
   border-radius: 8px;
 }
 
+/* --- Efek Loading --- */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -138,7 +141,7 @@ textarea {
   }
 }
 
-/* === FORMAT BUTTONS === */
+/* --- Gaya Tombol Format Teks --- */
 .format-buttons {
   display: flex;
   justify-content: center;
@@ -147,38 +150,50 @@ textarea {
   margin-bottom: 16px;
 }
 
-input[type="radio"] {
+/* Sembunyikan radio button bawaan browser */
+.format-buttons input[type="radio"] {
   display: none;
 }
 
-.format-label {
-  display: flex;
+/* Tampilan default untuk semua label radio */
+.format-buttons .format-label {
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  background-color: var(--secondary-yellow);
+  /* Mengatur ukuran tombol */
+  width: 65px;
+  height: 65px;
+  /* Styling tombol */
+  background-color: var(--bg-light);
   border: 2px solid var(--dark-yellow);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 1.2rem;
   color: var(--dark-yellow);
 }
 
-.format-label span {
+/* Tampilan ikon di dalam tombol */
+.format-buttons .format-label i {
+  font-size: 1.5rem;
+  line-height: 1; /* Menghapus spasi ekstra di bawah ikon */
+}
+
+/* Tampilan teks di dalam tombol */
+.format-buttons .format-label span {
   font-size: 0.7rem;
   margin-top: 4px;
 }
 
-.format-label:hover {
+/* Efek saat tombol di-hover */
+.format-buttons .format-label:hover {
   background-color: var(--dark-yellow);
   color: #fff;
   transform: scale(1.05);
 }
 
-input[type="radio"]:checked + .format-label {
+/* Efek saat radio button dipilih (checked) */
+.format-buttons input[type="radio"]:checked + .format-label {
   background-color: var(--dark-yellow);
   color: #fff;
   transform: scale(1.1);
