@@ -3,8 +3,8 @@
     const loadingOverlay = document.getElementById('loading-overlay');
     const successMessage = document.getElementById('success-message');
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec';
-    const telegramBotToken = '7517598036:AAHRqq7wpd242P2-gc9OQtBRnvWnsYDHU78';
-    const telegramChatId = 'https://t.me/tugaskuliah1';
+    const telegramBotToken = '8482394450:AAGwNNi_fcvVKltoKvUZVI65QGrAfmJxIq4';
+    const telegramChatId = '@tugaskuliah1';
 
     const tugasDiberikan = document.getElementById('TugasDiberikan');
     const formatRadios = document.querySelectorAll('input[name="text-format"]');
