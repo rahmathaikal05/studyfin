@@ -1,263 +1,74 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator PPN Modern</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #0052cc;
-            --secondary-color: #f0f6ff;
-            --text-color: #333;
-            --label-color: #555;
-            --border-color: #cdd4de;
-            --bg-color: #f7f9fc;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 82, 204, 0.1);
-            width: 100%;
-            max-width: 420px;
-            transition: all 0.3s ease;
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--text-color);
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 35px;
-            font-size: 28px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--label-color);
-            font-size: 14px;
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 14px 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 16px;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.2);
-        }
-
-        .input-symbol {
-            position: absolute;
-            color: var(--label-color);
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .input-symbol.left {
-            left: 20px;
-        }
-
-        .input-symbol.right {
-            right: 20px;
-        }
-
-        /* Adjust input padding to not overlap with symbol */
-        #uang {
-            padding-left: 60px; /* Space for "IDR" */
-            text-align: right;
-        }
-         #ppn {
-            padding-right: 45px; /* Space for "%" */
-            text-align: right;
-        }
-
-        .results {
-            margin-top: 35px;
-            padding-top: 25px;
-            border-top: 1px solid #eef2f7;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .result-item .label {
-            color: var(--label-color);
-        }
-
-        .result-item .value {
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .result-total {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .result-total .label {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .result-total .value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator PPN Simple</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 10px;
+      background: #fafafa;
+      color: #222;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .hasil {
+      margin-top: 20px;
+      padding: 10px;
+      background: #eee;
+    }
+    .hasil p {
+      margin: 8px 0;
+    }
+  </style>
 </head>
 <body>
+  <h2>Kalkulator PPN</h2>
 
-<div class="container">
-    <h1>Kalkulator PPN</h1>
+  <label for="harga">Harga Sebelum PPN</label>
+  <input type="number" id="harga" placeholder="contoh: 1500000" oninput="hitung()">
 
-    <div class="form-group">
-        <label for="uang">Harga Sebelum PPN</label>
-        <div class="input-wrapper">
-            <span class="input-symbol left">IDR</span>
-            <input type="number" id="uang" placeholder="0" oninput="formatAndCalculate()">
-        </div>
-    </div>
+  <label for="ppn">Tarif PPN (%)</label>
+  <input type="number" id="ppn" value="11" oninput="hitung()">
 
-    <div class="form-group">
-        <label for="ppn">Tarif PPN</label>
-        <div class="input-wrapper">
-            <input type="number" id="ppn" value="11" min="0" oninput="calculate()">
-             <span class="input-symbol right">%</span>
-        </div>
-    </div>
-    
-    <div class="results">
-        <div class="result-item">
-            <span class="label">Harga Pokok</span>
-            <span class="value" id="harga-pokok">IDR 0</span>
-        </div>
-        <div class="result-item">
-            <span class="label" id="ppn-label">PPN (11%)</span>
-            <span class="value" id="result-ppn">IDR 0</span>
-        </div>
-        <div class="result-total">
-            <span class="label">Total Bayar</span>
-            <span class="value" id="result-total">IDR 0</span>
-        </div>
-    </div>
-</div>
+  <div class="hasil">
+    <p>Harga Pokok: <span id="pokok">Rp 0</span></p>
+    <p>PPN: <span id="ppn-hasil">Rp 0</span></p>
+    <p><b>Total Bayar: <span id="total">Rp 0</span></b></p>
+  </div>
 
 <script>
-    function formatRupiah(number) {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(number);
-    }
+function formatRupiah(angka) {
+  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+}
 
-    function calculate() {
-        const uangInput = document.getElementById('uang');
-        const ppnInput = document.getElementById('ppn');
-        
-        // Result elements
-        const hargaPokokDiv = document.getElementById('harga-pokok');
-        const resultPpnDiv = document.getElementById('result-ppn');
-        const resultTotalDiv = document.getElementById('result-total');
-        const ppnLabelDiv = document.getElementById('ppn-label');
+function hitung() {
+  let harga = parseInt(document.getElementById('harga').value) || 0;
+  let tarif = parseFloat(document.getElementById('ppn').value) || 0;
 
-        const uangValue = uangInput.value.replace(/[^0-9]/g, ''); 
-        const ppnValue = parseFloat(ppnInput.value) || 0;
+  let ppn = harga * tarif / 100;
+  let total = harga + ppn;
 
-        let hargaPokok = 0;
-        let ppn = 0;
-        let total = 0;
-
-        if (uangValue) {
-            hargaPokok = parseInt(uangValue, 10);
-        }
-
-        if (hargaPokok > 0 && ppnValue >= 0) {
-            ppn = (hargaPokok * ppnValue) / 100;
-        }
-        
-        total = hargaPokok + ppn;
-
-        hargaPokokDiv.textContent = formatRupiah(hargaPokok);
-        ppnLabelDiv.textContent = `PPN (${ppnValue}%)`;
-        resultPpnDiv.textContent = formatRupiah(ppn);
-        resultTotalDiv.textContent = formatRupiah(total);
-    }
-
-    function formatAndCalculate() {
-        const uangInput = document.getElementById('uang');
-        let value = uangInput.value.replace(/[^0-9]/g, ''); 
-        
-        if (value) {
-            uangInput.value = new Intl.NumberFormat('id-ID').format(value);
-        } else {
-            uangInput.value = ''; // Clear if empty
-        }
-        calculate();
-    }
-    
-    // Initial calculation on page load
-    document.addEventListener('DOMContentLoaded', calculate);
+  document.getElementById('pokok').textContent = formatRupiah(harga);
+  document.getElementById('ppn-hasil').textContent = formatRupiah(ppn);
+  document.getElementById('total').textContent = formatRupiah(total);
+}
 </script>
-
 </body>
 </html>
