@@ -1,89 +1,87 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tugas Kuliah</title>
-  <link rel="icon" href="D:/RAHMAT/ICO/logo_poltek.png" type="image/x-icon" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tugas Kuliah</title>
+    <link rel="icon" href="D:/RAHMAT/ICO/logo_poltek.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="container">
-    <form id="task-form" method="POST" enctype="multipart/form-data">
-      <h4>Form Tugas Kuliah</h4>
+    <div class="container">
+        <form id="task-form" method="POST" enctype="multipart/form-data">
+            <h4>Form Tugas Kuliah</h4>
 
-      <label for="TanggalDiberikan">Tanggal Diberikan</label>
-      <input type="date" id="TanggalDiberikan" name="Diberikan" required />
+            <label for="TanggalDiberikan">Tanggal Diberikan</label>
+            <input type="date" id="TanggalDiberikan" name="Diberikan" required />
 
-      <label for="TanggalDikumpulkan">Tanggal Dikumpulkan</label>
-      <input type="date" id="TanggalDikumpulkan" name="Dikumpulkan" required />
+            <label for="TanggalDikumpulkan">Tanggal Dikumpulkan</label>
+            <input type="date" id="TanggalDikumpulkan" name="Dikumpulkan" required />
 
-      <label for="PertemuanKe">Pertemuan Ke</label>
-      <select id="PertemuanKe" name="Pertemuan" required>
-        <option value="">Pilih Pertemuan</option>
-        <script>
-          for (let i = 1; i <= 16; i++) {
-            document.write(`<option value="${i}">${i}</option>`);
-          }
-        </script>
-      </select>
+            <label for="PertemuanKe">Pertemuan Ke</label>
+            <select id="PertemuanKe" name="Pertemuan" required>
+                <option value="">Pilih Pertemuan</option>
+                <script>
+                    for (let i = 1; i <= 16; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
 
-      <label for="MataKuliah">Mata Kuliah</label>
-      <select id="MataKuliah" name="MK" required>
-        <option value="">Pilih Mata Kuliah</option>
-        <option value="Prak. Pengolahan Sinyal Digital">Prak. Pengolahan Sinyal Digital</option>
-        <option value="Rangkaian Elektronika Telekomunikasi">Rangkaian Elektronika Telekomunikasi</option>
-        <option value="Pengolahan Sinyal Digital">Pengolahan Sinyal Digital</option>
-        <option value="Mikrokontroller">Mikrokontroller</option>
-        <option value="Praktikum Rangkaian Elektronika Digital">Praktikum Rangkaian Elektronika Digital</option>
-        <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
-        <option value="Prakt. Rangkaian Elektronika Digital">Prakt. Rangkaian Elektronika Digital</option>
-        <option value="Algoritma dan Pemrograman">Algoritma dan Pemrograman</option>
-      </select>
+            <label for="MataKuliah">Mata Kuliah</label>
+            <select id="MataKuliah" name="MK" required>
+                <option value="">Pilih Mata Kuliah</option>
+                <option value="Prakt. Pengolahan Sinyal Digital">Prakt. Pengolahan Sinyal Digital</option>
+                <option value="Rangkaian Elektronika Telekomunikasi">Rangkaian Elektronika Telekomunikasi</option>
+                <option value="Pengolahan Sinyal Digital">Pengolahan Sinyal Digital</option>
+                <option value="Mikrokontroller">Mikrokontroller</option>
+                <option value="Prakt. Rangkaian Elektronika Digital">Prakt. Rangkaian Elektronika Digital</option>
+                <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
+                <option value="Prakt. Rangkaian Elektronika Telekomunikasi">Prakt. Rangkaian Elektronika Telekomunikasi</option>
+                <option value="Rangkaian Elektronika Digital">Rangkaian Elektronika Digital</option>
+                <option value="Algoritma dan Pemograman">Algoritma dan Pemograman</option>
+            </select>
 
-      <label>Pilihan Format Teks</label> <br>
-      <div class="format-buttons">
-        <input type="radio" id="format-default" name="text-format" value="default" checked>
-        <label for="format-default" class="format-label" title="Normal">
-          <i class="fa-solid fa-font"></i><span></span>
-        </label>
+            <label>Pilihan Format Teks</label> <br>
+            <div class="format-buttons">
+                <input type="radio" id="format-default" name="text-format" value="default" checked>
+                <label for="format-default" class="format-label" title="Normal">
+                    <i class="fa-solid fa-font"></i><span></span>
+                </label>
 
-        <input type="radio" id="format-uppercase" name="text-format" value="uppercase">
-        <label for="format-uppercase" class="format-label" title="Uppercase">
-          <i class="fa-solid fa-arrow-up-a-z"></i><span></span>
-        </label>
+                <input type="radio" id="format-uppercase" name="text-format" value="uppercase">
+                <label for="format-uppercase" class="format-label" title="Uppercase">
+                    <i class="fa-solid fa-arrow-up-a-z"></i><span></span>
+                </label>
 
-        <input type="radio" id="format-capitalize" name="text-format" value="capitalize">
-        <label for="format-capitalize" class="format-label" title="Capitalize">
-          <i class="fa-solid fa-a"></i><span></span>
-        </label>
+                <input type="radio" id="format-capitalize" name="text-format" value="capitalize">
+                <label for="format-capitalize" class="format-label" title="Capitalize">
+                    <i class="fa-solid fa-a"></i><span></span>
+                </label>
 
+                <input type="radio" id="format-title" name="text-format" value="title">
+                <label for="format-title" class="format-label" title="Title Case">
+                    <i class="fa-solid fa-heading"></i><span></span>
+                </label>
+            </div>
 
-        <input type="radio" id="format-title" name="text-format" value="title">
-        <label for="format-title" class="format-label" title="Title Case">
-          <i class="fa-solid fa-heading"></i><span></span>
-        </label>
+            <label for="TugasDiberikan">Tugas Yang Diberikan</label>
+            <textarea id="TugasDiberikan" name="Tugas Yang Diberikan" rows="4" required></textarea>
 
-        </label>
-      </div>
+            <label for="LampiranGambar">Lampiran Gambar</label>
+            <input type="file" id="LampiranGambar" name="LampiranGambar" accept="image/*" multiple />
 
-      <label for="TugasDiberikan">Tugas Yang Diberikan</label>
-      <textarea id="TugasDiberikan" name="Tugas Yang Diberikan" rows="4" required></textarea>
+            <input type="submit" id="submit" value="Input" />
+        </form>
+        <div class="success-message" id="success-message">Data berhasil diinput!</div>
+    </div>
 
-      <label for="LampiranGambar">Lampiran Gambar</label>
-      <input type="file" id="LampiranGambar" name="LampiranGambar" accept="image/*" multiple />
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
 
-      <input type="submit" id="submit" value="Input" />
-    </form>
-    <div class="success-message" id="success-message">Data berhasil diinput!</div>
-  </div>
-
-  <div class="loading-overlay" id="loading-overlay">
-    <div class="loading-spinner"></div>
-  </div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
