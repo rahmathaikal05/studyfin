@@ -7,12 +7,14 @@
     <link rel="icon" href="D:/RAHMAT/ICO/logo_poltek.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
         <form id="task-form" method="POST" enctype="multipart/form-data">
             <h4>Form Tugas Kuliah</h4>
+            
 
             <label for="TanggalDiberikan">Tanggal Diberikan</label>
             <input type="date" id="TanggalDiberikan" name="Diberikan" required />
@@ -79,7 +81,10 @@
     </div>
 
     <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-spinner"></div>
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Sedang mengirim data, mohon tunggu...</p>
+        </div>
     </div>
 
     <script src="script.js"></script>

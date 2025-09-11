@@ -34,6 +34,18 @@ body {
   color: var(--text-dark);
 }
 
+.image-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.education-image {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
 h4 {
   font-size: 1.5rem;
   margin-bottom: 16px;
@@ -92,35 +104,60 @@ textarea {
   border-radius: 8px;
 }
 
-/* --- Efek Loading --- */
+/* --- Efek Loading BARU --- */
 .loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  visibility: hidden;
   opacity: 0;
-  transition: 0.3s ease-in-out;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .loading-overlay.active {
-  visibility: visible;
   opacity: 1;
+  visibility: visible;
+}
+
+.loading-content {
+    text-align: center;
 }
 
 .loading-spinner {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid var(--dark-yellow);
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
+    width: 60px;
+    height: 60px;
+    border: 6px solid #fff;
+    border-radius: 50%;
+    border-top-color: var(--primary-yellow);
+    animation: spin 1s linear infinite;
+    position: relative;
+    margin: 0 auto 20px;
+}
+
+.loading-spinner::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    background: var(--dark-yellow);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
 }
 
 @keyframes spin {
@@ -145,81 +182,49 @@ textarea {
 .format-buttons {
   display: flex;
   justify-content: center;
-  gap: 8px; /* Mengurangi jarak antar tombol */
+  gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
 
-/* Sembunyikan radio button bawaan browser */
 .format-buttons input[type="radio"] {
   display: none;
 }
 
-/* Tampilan default untuk semua label radio */
 .format-buttons .format-label {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Mengatur ukuran tombol */
-  width: 50px; /* Mengurangi lebar */
-  height: 50px; /* Mengurangi tinggi */
-  /* Styling tombol */
+  width: 50px;
+  height: 50px;
   background-color: var(--bg-light);
   border: 2px solid var(--dark-yellow);
-  border-radius: 10px; /* Mengurangi border-radius agar proporsional */
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   color: var(--dark-yellow);
 }
 
-/* Tampilan ikon di dalam tombol */
 .format-buttons .format-label i {
-  font-size: 1.2rem; /* Mengurangi ukuran ikon */
+  font-size: 1.2rem;
   line-height: 1;
 }
 
-/* Tampilan teks di dalam tombol */
 .format-buttons .format-label span {
-  font-size: 0.6rem; /* Mengurangi ukuran teks */
-  margin-top: 3px; /* Menyesuaikan jarak atas */
+  font-size: 0.6rem;
+  margin-top: 3px;
 }
 
-/* Efek saat tombol di-hover */
 .format-buttons .format-label:hover {
   background-color: var(--dark-yellow);
   color: #fff;
   transform: scale(1.05);
 }
 
-/* Efek saat radio button dipilih (checked) */
 .format-buttons input[type="radio"]:checked + .format-label {
   background-color: var(--dark-yellow);
   color: #fff;
   transform: scale(1.1);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Styling for the loading text */
-.loading-overlay {
-  display: none;
-  position: fixed;
-  bottom: 20px; /* Position at the bottom */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  z-index: 1000;
-  text-align: center;
-}
-
-.loading-overlay.visible {
-  display: block;
-}
-
-.loading-text {
-  font-size: 1.2em;
-  font-weight: bold;
 }
