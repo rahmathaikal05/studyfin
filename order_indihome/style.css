@@ -1,0 +1,89 @@
+/* Tata Letak Grid Ikon */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+    justify-items: center;
+}
+
+@media (min-width: 768px) {
+    .menu-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.menu-item-icon {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-item-icon:hover {
+    transform: scale(1.05); /* Slightly enlarge the icon on hover */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Bolder shadow */
+}
+
+.icon-circle {
+    width: 90px; /* Increase the circle size */
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em; /* Increase the icon size */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px; /* Adjust spacing */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* New color scheme for light mode */
+.icon-circle.primary-bg {
+    background-color: #007bff; /* A nice blue */
+}
+
+.icon-circle.warning-bg {
+    background-color: #ffc107; /* A bright yellow */
+}
+
+.icon-circle.info-bg {
+    background-color: #17a2b8; /* A cool cyan */
+}
+
+.icon-circle.success-bg {
+    background-color: #28a745; /* Retained green for success */
+}
+
+/* New color scheme for dark mode */
+body.dark-mode .icon-circle.primary-bg {
+    background-color: #6c757d; /* Dark gray */
+}
+
+body.dark-mode .icon-circle.warning-bg {
+    background-color: #6f42c1; /* Purple */
+}
+
+body.dark-mode .icon-circle.info-bg {
+    background-color: #20c997; /* Teal */
+}
+
+body.dark-mode .icon-circle.success-bg {
+    background-color: #fd7e14; /* Orange */
+}
+
+.menu-item-icon span {
+    font-size: 1em; /* Slightly larger text */
+    font-weight: 600; /* Bolder text */
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .menu-item-icon span {
+    color: #ecf0f1;
+}

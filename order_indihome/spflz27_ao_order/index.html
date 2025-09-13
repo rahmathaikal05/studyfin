@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <title>Form Deal PSB</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        textarea, input, select {
+            width: 100%;
+            max-width: 700px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .clear-btn {
+            background-color: #dc3545;
+        }
+
+        .clear-btn:hover {
+            background-color: #c82333;
+        }
+
+        form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 700px;
+            justify-content: center;
+        }
+
+        #lok {
+            cursor: pointer;
+            background-color: #f8f8f8;
+        }
+        
+        .lokasi-container {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ambil-lokasi-btn {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .ambil-lokasi-btn:hover {
+            background-color: #218838;
+        }
+
+        #statusMessage {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .map-container {
+            width: 100%;
+            max-width: 700px;
+            aspect-ratio: 1 / 1;
+            margin-top: 20px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        
+        @media(max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .lokasi-container {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<textarea id="rawInput" rows="10" placeholder="Tempelkan data /dealpsb di sini..."></textarea>
+
+<div class="button-group">
+    <button type="button" class="clear-btn" onclick="resetForm()">Clear</button>
+    <button onclick="salinText()">Salin Teks</button>
+</div>
+
+<div id="statusMessage"></div>
+
+<form id="psbForm">
+    <h2>Form Deal PSB</h2>
+    <div class="form-grid">
+        <div class="full-width">
+            <label>Unggah Foto</label>
+            <input type="file" id="photoInput" accept="image/*" disabled>
+        </div>
+        
+        <div><label>AO</label><input type="text" id="ao"></div>
+        <div><label>K-KONTAK SF</label><input type="text" id="kkontaksf"></div>
+        <div><label>NAMA PELANGGAN</label><input type="text" id="namapelanggan"></div>
+        <div><label>STO</label><input type="text" id="sto"></div>
+        <div><label>TIKOR</label><input type="text" id="tikor"></div>
+        
+        <div class="lokasi-container">
+            <label>LOK (klik untuk salin)</label>
+            <input type="text" id="lok" readonly onclick="salinAlamat()">
+            <button type="button" class="ambil-lokasi-btn" onclick="ambilLokasiSaatIni()">Ambil Lokasi Saat Ini</button>
+        </div>
+        
+        <div class="full-width map-container">
+            <iframe id="map" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div><label>JENIS PSB</label><select id="jenispsb">
+            <option>EZNET</option>
+            <option>INDIHOME</option>
+            <option>EZNET WIRRELES</option>
+        </select></div>
+        <div><label>PAKET</label><select id="paket">
+            <option>20 MBPS</option>
+            <option>50 MBPS</option>
+            <option>75 MBPS</option>
+            <option>150 MBPS</option>
+            <option>200 MBPS</option>
+            <option>10 MBPS</option>
+        </select></div>
+        <div><label>CP PELANGGAN</label><input type="text" id="cppelanggan"></div>
+        <div><label>CP ALT</label><input type="text" id="cpalt"></div>
+        <div><label>AGENCY</label><input type="text" id="agency"></div>
+        <div><label>CLUSTER</label><input type="text" id="cluster"></div>
+    </div>
+</form>
+
+<script>
+    const statusMessage = document.getElementById("statusMessage");
+    const rawInput = document.getElementById("rawInput");
+    const lokInput = document.getElementById("lok");
+    const tikorInput = document.getElementById("tikor");
+    const mapIframe = document.getElementById("map");
+
+    tikorInput.addEventListener("input", () => {
+        tikorInput.value = tikorInput.value.replace(/\s/g, '');
+        updateMap(tikorInput.value);
+    });
+
+    function scrollAtas() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function ambilAlamatDariKoordinat(lat, lon) {
+        if (!lat || !lon) return "";
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+
+        try {
+            const response = await fetch(url, { headers: { 'Accept-Language': 'id', 'User-Agent': 'Form Deal PSB App' } });
+            const data = await response.json();
+            return data.display_name || `Dekat koordinat: ${lat}, ${lon}`;
+        } catch (error) {
+            console.error("Gagal mengambil alamat:", error);
+            return `Dekat koordinat: ${lat}, ${lon}`;
+        }
+    }
+
+    function salinAlamat() {
+        const text = lokInput.value;
+        if (text) {
+            navigator.clipboard.writeText(text)
+                .then(() => alert("Alamat disalin ke clipboard!"))
+                .catch(() => alert("Gagal menyalin."));
+        }
+    }
+    
+    function resetForm() {
+        document.getElementById("psbForm").reset();
+        rawInput.value = "";
+        lokInput.value = "";
+        statusMessage.textContent = "";
+        document.getElementById("photoInput").value = null;
+        updateMap("");
+    }
+    
+    function parseData(text) {
+        const data = {};
+        const lines = text.split("\n").map(l => l.trim());
+        const labels = ["AO :", "K-KONTAK SF :", "NAMA PELANGGAN :", "STO :", "TIKOR :", "JENIS PSB :", "PAKET :", "CP PELANGGAN :", "CP ALT :", "AGENCY :", "CLUSTER :", "LOK :"];
+        
+        labels.forEach(label => {
+            const line = lines.find(l => l.startsWith(label));
+            if (line) {
+                const key = label.replace(/ :/,"").toLowerCase().replace(/ /g,"").replace(/-/g,"");
+                data[key] = line.replace(label, "").trim();
+            }
+        });
+        
+        if (!data.namapelanggan) {
+            const namaLine = lines.find(l => l.startsWith('NAMA PELANGGAN :'));
+            if (namaLine) {
+                data.namapelanggan = namaLine.replace('NAMA PELANGGAN :', '').trim();
+            }
+        }
+        
+        return data;
+    }
+
+    async function isiOtomatisDariInput() {
+        const text = rawInput.value.trim();
+        if (!text.includes("/dealpsb")) {
+            resetForm();
+            return;
+        }
+
+        const fields = parseData(text);
+
+        for (const key in fields) {
+            const el = document.getElementById(key);
+            if (el) {
+                if (el.tagName === 'SELECT') {
+                    const optionExists = Array.from(el.options).some(opt => opt.value === fields[key]);
+                    if (optionExists) {
+                        el.value = fields[key];
+                    }
+                } else {
+                    el.value = fields[key];
+                }
+            }
+        }
+
+        if (fields.tikor) {
+            const tikorTanpaSpasi = fields.tikor.replace(/\s/g, '');
+            tikorInput.value = tikorTanpaSpasi;
+            
+            if (!fields.lok) {
+                lokInput.value = "Mengambil alamat...";
+                const [lat, lon] = tikorTanpaSpasi.split(",").map(s => s.trim());
+                const alamat = await ambilAlamatDariKoordinat(lat, lon);
+                lokInput.value = alamat;
+            }
+            updateMap(tikorTanpaSpasi);
+        } else {
+            updateMap("");
+        }
+    }
+
+    rawInput.addEventListener("input", isiOtomatisDariInput);
+
+    function updateMap(tikor) {
+        if (tikor && tikor.includes(",")) {
+            const [lat, lon] = tikor.split(",").map(s => s.trim());
+            const mapsUrl = `https://maps.google.com/maps?q=${lat},${lon}&hl=id&z=17&t=k&output=embed`;
+            mapIframe.src = mapsUrl;
+        } else {
+            mapIframe.src = "";
+        }
+    }
+    
+    function ambilLokasiSaatIni() {
+        if ("geolocation" in navigator) {
+            statusMessage.textContent = "Mengambil lokasi...";
+            statusMessage.style.color = "black";
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const tikor = `${lat},${lon}`;
+                
+                tikorInput.value = tikor;
+                updateMap(tikor);
+
+                lokInput.value = "Mengambil alamat...";
+                const alamat = await ambilAlamatDariKoordinat(lat, lon);
+                lokInput.value = alamat;
+
+                statusMessage.textContent = "✅ Lokasi berhasil diambil!";
+                statusMessage.style.color = "green";
+            }, (error) => {
+                statusMessage.textContent = `❌ Gagal mengambil lokasi: ${error.message}`;
+                statusMessage.style.color = "red";
+                console.error("Geolocation Error:", error);
+            });
+        } else {
+            alert("Browser Anda tidak mendukung Geolocation API.");
+            statusMessage.textContent = "❌ Geolocation tidak didukung.";
+            statusMessage.style.color = "red";
+        }
+    }
+
+    async function salinText() {
+        statusMessage.textContent = "Menyalin...";
+        statusMessage.style.color = "black";
+        
+        const ao = document.getElementById("ao").value;
+        const kkontaksf = document.getElementById("kkontaksf").value;
+        const namapelanggan = document.getElementById("namapelanggan").value;
+        const sto = document.getElementById("sto").value;
+        const tikor = tikorInput.value;
+        const jenispsb = document.getElementById("jenispsb").value;
+        const paket = document.getElementById("paket").value;
+        const cppelanggan = document.getElementById("cppelanggan").value;
+        const cpalt = document.getElementById("cpalt").value;
+        const agency = document.getElementById("agency").value;
+        const cluster = document.getElementById("cluster").value;
+        const lok = lokInput.value;
+        
+        let textToCopy = `/dealpsb\nAO : ${ao}\nK-KONTAK SF : ${kkontaksf}\nNAMA PELANGGAN : ${namapelanggan}\nTIKOR : ${tikor}\nSTO : ${sto}\nJENIS PSB : ${jenispsb}\nPAKET : ${paket}\nCP PELANGGAN : ${cppelanggan}\nCP ALT : ${cpalt}\nAGENCY : ${agency}\nCLUSTER : ${cluster}\nLOK : ${lok}`;
+        
+        if (tikor && tikor.includes(",")) {
+            const [lat, lon] = tikor.split(",").map(s => s.trim());
+            textToCopy += `\n\nMaps: https://maps.google.com/maps?q=${lat},${lon}`;
+        }
+
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            statusMessage.textContent = "✅ Teks berhasil disalin ke clipboard!";
+            statusMessage.style.color = "green";
+        } catch (err) {
+            statusMessage.textContent = `❌ Gagal menyalin: ${err.message}`;
+            statusMessage.style.color = "red";
+            console.error(err);
+        }
+    }
+</script>
+
+</body>
+</html>
