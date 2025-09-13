@@ -1,13 +1,13 @@
 {
-  "name": "SPFLZ27 AO",
-  "short_name": "SPFLZ27",
-  "start_url": "https://rahmathaikal05.github.io/studyfin/order_indihome/spflz27_ao_order",
+  "name": "Kalkulator Indihome",
+  "short_name": "Kalkulator Indihome",
+  "start_url": "https://rahmathaikal05.github.io/studyfin/order_indihome/kalkulator_indihome",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "favicon.jpg",
+      "src": "favicon.png",
       "sizes": "48x48 72x72 96x96 144x144 192x192 256x256",
       "type": "image/x-icon"
     }
