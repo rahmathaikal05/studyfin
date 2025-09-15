@@ -5,9 +5,11 @@
   --dark-yellow: #d97706;
   --text-dark: #1f2937;
   --bg-light: #ffffff;
+  --success-green: #16a34a;
+  --success-green-dark: #15803d;
 }
 
-/* --- Pengaturan Dasar --- */
+/* --- Reset & Dasar --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -24,6 +26,7 @@ body {
   padding: 20px;
 }
 
+/* --- Container Form --- */
 .container {
   width: 100%;
   max-width: 420px;
@@ -34,21 +37,9 @@ body {
   color: var(--text-dark);
 }
 
-.image-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.education-image {
-    width: 100%;
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
-}
-
 h4 {
   font-size: 1.5rem;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   color: var(--dark-yellow);
   text-align: center;
 }
@@ -60,6 +51,7 @@ label {
   font-size: 0.95rem;
 }
 
+/* --- Input & Select --- */
 input[type="date"],
 input[type="file"],
 select,
@@ -77,6 +69,7 @@ textarea {
   resize: vertical;
 }
 
+/* --- Tombol Submit --- */
 #submit {
   width: 100%;
   padding: 12px;
@@ -87,24 +80,60 @@ textarea {
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 #submit:hover {
   background-color: #b45309;
+  transform: translateY(-1px);
 }
 
-.success-message {
+#submit:active {
+  transform: scale(0.98);
+}
+
+/* --- Format Buttons --- */
+.format-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.format-buttons input[type="radio"] {
   display: none;
-  margin-top: 16px;
-  padding: 10px;
-  background-color: #22c55e;
-  color: white;
-  text-align: center;
-  border-radius: 8px;
 }
 
-/* --- Efek Loading BARU --- */
+.format-buttons .format-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: var(--bg-light);
+  border: 2px solid var(--dark-yellow);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--dark-yellow);
+  font-size: 1.2rem;
+}
+
+.format-buttons .format-label:hover {
+  background-color: var(--dark-yellow);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.format-buttons input[type="radio"]:checked + .format-label {
+  background-color: var(--dark-yellow);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Overlay Loading --- */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -127,35 +156,21 @@ textarea {
 }
 
 .loading-content {
-    text-align: center;
+  text-align: center;
 }
 
 .loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid #fff;
-    border-radius: 50%;
-    border-top-color: var(--primary-yellow);
-    animation: spin 1s linear infinite;
-    position: relative;
-    margin: 0 auto 20px;
-}
-
-.loading-spinner::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 15px;
-    height: 15px;
-    background: var(--dark-yellow);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  width: 60px;
+  height: 60px;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  border-top-color: var(--primary-yellow);
+  animation: spin 1s linear infinite, color-change 2s infinite alternate;
+  margin: 0 auto 20px;
 }
 
 .loading-text {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #fff;
 }
@@ -166,6 +181,69 @@ textarea {
   }
 }
 
+@keyframes color-change {
+  0% { border-top-color: var(--primary-yellow); }
+  50% { border-top-color: var(--dark-yellow); }
+  100% { border-top-color: var(--primary-yellow); }
+}
+
+/* --- Popup Sukses --- */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 320px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  animation: popIn 0.3s ease;
+}
+
+.popup-box h2 {
+  margin-bottom: 10px;
+  color: var(--success-green);
+}
+
+.popup-box p {
+  margin-bottom: 20px;
+  color: #374151;
+}
+
+.popup-box button {
+  background: var(--success-green);
+  border: none;
+  padding: 10px 18px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.popup-box button:hover {
+  background: var(--success-green-dark);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* --- Responsive --- */
 @media (max-width: 480px) {
   h4 {
     font-size: 1.3rem;
@@ -176,55 +254,4 @@ textarea {
   #submit {
     font-size: 1rem;
   }
-}
-
-/* --- Gaya Tombol Format Teks (Diperkecil) --- */
-.format-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.format-buttons input[type="radio"] {
-  display: none;
-}
-
-.format-buttons .format-label {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: var(--bg-light);
-  border: 2px solid var(--dark-yellow);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: var(--dark-yellow);
-}
-
-.format-buttons .format-label i {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.format-buttons .format-label span {
-  font-size: 0.6rem;
-  margin-top: 3px;
-}
-
-.format-buttons .format-label:hover {
-  background-color: var(--dark-yellow);
-  color: #fff;
-  transform: scale(1.05);
-}
-
-.format-buttons input[type="radio"]:checked + .format-label {
-  background-color: var(--dark-yellow);
-  color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

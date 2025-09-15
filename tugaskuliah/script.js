@@ -1,6 +1,9 @@
+// --- Ambil elemen ---
 const form = document.getElementById('task-form');
 const loadingOverlay = document.getElementById('loading-overlay');
-const successMessage = document.getElementById('success-message');
+const popupSuccess = document.getElementById('popup-success');
+const closePopup = document.getElementById('close-popup');
+
 const scriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec';
 const telegramBotToken = '8482394450:AAGwNNi_fcvVKltoKvUZVI65QGrAfmJxIq4';
 const telegramChatId = '8451880009';
@@ -9,55 +12,39 @@ const tugasDiberikan = document.getElementById('TugasDiberikan');
 const formatRadios = document.querySelectorAll('input[name="text-format"]');
 let selectedFormat = document.querySelector('input[name="text-format"]:checked').value;
 
-function toSentenceCase(text) {
-  if (!text) return '';
-  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-}
-
+// --- Fungsi format teks ---
 function toCapitalize(text) {
-  if (!text) return '';
   return text.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function toTitleCase(text) {
-  if (!text) return '';
   const minor = ['dan', 'di', 'ke', 'yang', 'dari', 'untuk', 'atau', 'pada'];
   return text.toLowerCase().split(' ')
-    .map((word, i) => i === 0 || !minor.includes(word) ? word.charAt(0).toUpperCase() + word.slice(1) : word)
+    .map((w, i) => i === 0 || !minor.includes(w) ? w.charAt(0).toUpperCase() + w.slice(1) : w)
     .join(' ');
 }
 
-function toInverseCase(text) {
-  if (!text) return '';
-  return text.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join('');
-}
-
-function applyFormatToTextarea() {
-  let currentText = tugasDiberikan.value;
-  let formattedText = currentText;
-
+function applyFormat() {
+  let txt = tugasDiberikan.value;
   switch (selectedFormat) {
-    case 'uppercase': formattedText = currentText.toUpperCase(); break;
-    case 'lowercase': formattedText = currentText.toLowerCase(); break;
-    case 'capitalize': formattedText = toCapitalize(currentText); break;
-    case 'sentence': formattedText = toSentenceCase(currentText); break;
-    case 'title': formattedText = toTitleCase(currentText); break;
-    case 'inverse': formattedText = toInverseCase(currentText); break;
-    default: formattedText = currentText;
+    case 'uppercase': txt = txt.toUpperCase(); break;
+    case 'lowercase': txt = txt.toLowerCase(); break;
+    case 'capitalize': txt = toCapitalize(txt); break;
+    case 'title': txt = toTitleCase(txt); break;
+    default: break; // normal
   }
-
-  tugasDiberikan.value = formattedText;
+  tugasDiberikan.value = txt;
 }
 
-formatRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    selectedFormat = radio.value;
-    applyFormatToTextarea();
-  });
-});
+// --- Event format ---
+formatRadios.forEach(r => r.addEventListener('change', () => {
+  selectedFormat = r.value;
+  applyFormat();
+}));
 
-tugasDiberikan.addEventListener('input', applyFormatToTextarea);
+tugasDiberikan.addEventListener('input', applyFormat);
 
+// --- Submit Form ---
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   loadingOverlay.classList.add('active');
@@ -67,7 +54,9 @@ form.addEventListener('submit', async (e) => {
   formData.set("Tugas Yang Diberikan", tugasText);
 
   const data = Object.fromEntries(formData.entries());
- const message = `<pre>
+
+  // pesan Telegram (format <pre>)
+  const message = `<pre>
 🔔 Tugas Kuliah Baru
 
 📅 Diberikan   : ${data['Diberikan']}
@@ -82,35 +71,38 @@ ${tugasText}
 </pre>`;
 
   try {
+    // kirim ke Google Sheet
     await fetch(scriptURL, { method: 'POST', body: formData });
 
+    // kirim pesan ke Telegram
     await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: telegramChatId, text: message, parse_mode: 'HTML' })
+      body: JSON.stringify({
+        chat_id: telegramChatId,
+        text: message,
+        parse_mode: "HTML" // supaya <pre> dikenali
+      })
     });
 
-    const files = document.getElementById('LampiranGambar').files;
-    for (let i = 0; i < files.length; i++) {
-      const photoData = new FormData();
-      photoData.append("chat_id", telegramChatId);
-      photoData.append("photo", files[i]);
-      photoData.append("caption", `Lampiran Tugas (${i + 1} dari ${files.length}).`);
-
-      await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendPhoto`, {
-        method: 'POST',
-        body: photoData
-      });
-    }
-
+    // sukses
     loadingOverlay.classList.remove('active');
-    successMessage.style.display = 'block';
-    setTimeout(() => successMessage.style.display = 'none', 3000);
+    popupSuccess.style.display = 'flex';
     form.reset();
-  } catch (error) {
-    alert("Terjadi kesalahan saat mengirim data.");
-    console.error(error);
-    loadingOverlay.classList.remove('active');
-  }
 
+    // auto close popup setelah 3 detik
+    setTimeout(() => {
+      popupSuccess.style.display = 'none';
+    }, 3000);
+
+  } catch (err) {
+    loadingOverlay.classList.remove('active');
+    alert("❌ Gagal mengirim data!");
+    console.error(err);
+  }
+});
+
+// --- Tutup popup manual ---
+closePopup.addEventListener('click', () => {
+  popupSuccess.style.display = 'none';
 });
