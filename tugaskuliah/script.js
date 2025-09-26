@@ -5,7 +5,7 @@ const popupSuccess = document.getElementById('popup-success');
 const closePopup = document.getElementById('close-popup');
 
 const scriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec';
-const telegramBotToken = '8482394450:AAGwNNi_fcvVKltoKvUZVI65QGrAfmJxIq4';
+const telegramBotToken = '8217981437:AAEXx2Tdv_fMN-QuId4xkBoUQwAZIQpj8XA';
 const telegramChatId = '8451880009';
 
 const tugasDiberikan = document.getElementById('TugasDiberikan');
