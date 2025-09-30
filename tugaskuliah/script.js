@@ -6,7 +6,7 @@ const closePopup = document.getElementById('close-popup');
 
 const scriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec';
 const telegramBotToken = '8217981437:AAEXx2Tdv_fMN-QuId4xkBoUQwAZIQpj8XA';
-const telegramChatId = '8451880009';
+const telegramChatId = '@fyi24a_bot';
 
 const tugasDiberikan = document.getElementById('TugasDiberikan');
 const formatRadios = document.querySelectorAll('input[name="text-format"]');
@@ -56,7 +56,7 @@ form.addEventListener('submit', async (e) => {
 
   const data = Object.fromEntries(formData.entries());
 
-  // Pesan Telegram dalam format <pre>
+  // Caption tugas (dengan <pre>)
   const caption = `
 🔔 Tugas Kuliah Baru
 
@@ -71,24 +71,24 @@ ${tugasText}
 `;
 
   try {
-    // Kirim ke Google Sheet (tetap sama)
+    // Kirim ke Google Sheet
     await fetch(scriptURL, { method: 'POST', body: formData });
 
     const files = fileInput.files;
 
-    // Kirim pesan teks terpisah terlebih dahulu
-    await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: telegramChatId,
-        text: `<pre>${caption}</pre>`,
-        parse_mode: "HTML"
-      })
-    });
-
-    // Jika ada gambar, kirim setelah pesan teks
     if (files.length > 0) {
+      // Pertama kirim teks tugas dulu (pakai <pre>)
+      await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: telegramChatId,
+          text: `<pre>${caption}</pre>`,
+          parse_mode: "HTML"
+        })
+      });
+
+      // Baru kirim semua gambar (tanpa pre)
       const media = [];
       const tgForm = new FormData();
       tgForm.append("chat_id", telegramChatId);
@@ -102,12 +102,24 @@ ${tugasText}
         media.push(mediaItem);
         tgForm.append(file.name, file);
       }
-      
+
       tgForm.append("media", JSON.stringify(media));
 
       await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMediaGroup`, {
         method: "POST",
         body: tgForm
+      });
+
+    } else {
+      // Jika tidak ada gambar, kirim teks saja
+      await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: telegramChatId,
+          text: `<pre>${caption}</pre>`,
+          parse_mode: "HTML"
+        })
       });
     }
 
@@ -126,9 +138,4 @@ ${tugasText}
     alert("❌ Gagal mengirim data!");
     console.error(err);
   }
-});
-
-// --- Tutup popup manual ---
-closePopup.addEventListener('click', () => {
-  popupSuccess.style.display = 'none';
 });
