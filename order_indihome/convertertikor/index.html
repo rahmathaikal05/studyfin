@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Konversi Tikor (koma→titik)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 24px; background:#f7fafc; color:#111827; }
+    .card { background: white; padding:16px; border-radius:10px; box-shadow: 0 6px 18px rgba(15,23,42,0.08); max-width:720px; margin:0 auto; }
+    label { display:block; margin-bottom:8px; font-weight:600; }
+    textarea { width:100%; min-height:64px; padding:10px; font-size:14px; border-radius:8px; border:1px solid #e5e7eb; }
+    pre { background:#111827; color:#f8fafc; padding:12px; border-radius:8px; overflow-x:auto; }
+    .row { display:flex; gap:8px; margin-top:12px; }
+    button { padding:8px 12px; border:0; border-radius:8px; cursor:pointer; font-weight:600; }
+    button.primary { background:#2563eb; color:white; }
+    button.ghost { background:#f3f4f6; color:#111827; }
+    .note { margin-top:12px; color:#374151; font-size:13px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Konversi Tikor (format koma desimal → titik)</h2>
+
+    <label for="input">Masukkan teks (contoh):</label>
+    <textarea id="input">4,748580425560462, 96,91350796523703</textarea>
+
+    <div class="row">
+      <button id="convert" class="primary">Konversi</button>
+      <button id="copy" class="ghost">Salin hasil</button>
+      <button id="reset" class="ghost">Reset contoh</button>
+    </div>
+
+    <label style="margin-top:12px;">Hasil:</label>
+    <pre id="output">— tekan "Konversi"</pre>
+
+    <div class="note">
+      Mekanisme:
+      <ol>
+        <li>Mendeteksi pasangan angka desimal bertipe `\d+,\d+` (mis. <code>4,74858...</code>),</li>
+        <li>mengganti koma desimal menjadi titik untuk tiap angka,</li>
+        <li>menggabungkan dua koordinat menjadi format <code>lat,lon</code> tanpa spasi: <code>4.748580...,96.913507...</code>.</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    const inputEl = document.getElementById('input');
+    const outEl = document.getElementById('output');
+    const btnConvert = document.getElementById('convert');
+    const btnCopy = document.getElementById('copy');
+    const btnReset = document.getElementById('reset');
+
+    function convertTikor(text) {
+      // Cari semua angka bertipe desimal dengan koma, mis. "4,7485..."
+      const matches = text.match(/\d+,\d+/g);
+      if (matches && matches.length >= 2) {
+        // Ambil dua yang paling relevan (biasanya kedua koordinat)
+        // Jika ada lebih dari dua match, gabungkan berpasangan: ambil match[0] & match[1]
+        const first = matches[0].replace(',', '.');
+        const second = matches[1].replace(',', '.');
+        return first + ',' + second;
+      }
+
+      // Fallback: jika pola tidak ditemukan, coba aturan sederhana:
+      // 1) collapse " , " → "," (hapus spasi di sekitar koma)
+      // 2) ganti semua koma yang tersisa menjadi titik
+      // (berguna untuk input lain yang lebih "berantakan")
+      const collapsed = text.replace(/\s*,\s*/g, ',');
+      // Jika collapsed sekarang punya tepat 1 koma (dua bagian), maka ganti koma decimal di tiap bagian
+      const parts = collapsed.split(',');
+      if (parts.length === 2 && /^\d+,\d+/.test(text) === false) {
+        // asumsi: kalau hanya satu koma pembatas, ganti koma internal tiap bagian (jika ada)
+        const a = parts[0].replace(/,/g, '.');
+        const b = parts[1].replace(/,/g, '.');
+        return a + ',' + b;
+      }
+
+      // Jika masih tidak cocok, lakukan generik: hapus spasi lalu ubah seluruh koma menjadi titik
+      return collapsed.replace(/,/g, '.');
+    }
+
+    btnConvert.addEventListener('click', () => {
+      const txt = inputEl.value.trim();
+      if (!txt) {
+        outEl.textContent = 'Input kosong';
+        return;
+      }
+      const result = convertTikor(txt);
+      outEl.textContent = result;
+    });
+
+    btnCopy.addEventListener('click', async () => {
+      const text = outEl.textContent;
+      if (!text || text === '— tekan "Konversi"') return;
+      try {
+        await navigator.clipboard.writeText(text);
+        btnCopy.textContent = 'Tersalin!';
+        setTimeout(()=> btnCopy.textContent = 'Salin hasil', 1200);
+      } catch (e) {
+        alert('Gagal menyalin: ' + e);
+      }
+    });
+
+    btnReset.addEventListener('click', () => {
+      inputEl.value = '4,748580425560462, 96,91350796523703';
+      outEl.textContent = '— tekan "Konversi"';
+    });
+
+    // Auto-convert on load for convenience
+    window.addEventListener('load', () => {
+      btnConvert.click();
+    });
+  </script>
+</body>
+</html>
