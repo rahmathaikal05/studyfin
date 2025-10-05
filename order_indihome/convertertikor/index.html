@@ -16,6 +16,15 @@
     button.primary { background:#2563eb; color:white; }
     button.ghost { background:#f3f4f6; color:#111827; }
     .note { margin-top:12px; color:#374151; font-size:13px; }
+
+    input[type="text"] { 
+  width:93%; 
+  padding:10px; 
+  font-size:14px; 
+  border-radius:8px; 
+  border:1px solid #e5e7eb; 
+}
+
   </style>
 </head>
 <body>
@@ -23,7 +32,8 @@
     <h2>Konversi Tikor (format koma desimal → titik)</h2>
 
     <label for="input"></label>
-    <textarea id="input"></textarea>
+ <input type="text" id="input">
+
 
     <div class="row">
       <button id="convert" class="primary">Konversi</button>
