@@ -7,6 +7,7 @@
     <link rel="manifest" href="manifest.json">
     <title>Form Deal PSB</title>
     <style>
+        /* === KODE LAMA DIPERTAHANKAN === */
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: #e9ecef;
@@ -40,17 +41,9 @@
             transition: background-color 0.2s ease;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .clear-btn {
-            background-color: #dc3545;
-        }
-
-        .clear-btn:hover {
-            background-color: #c82333;
-        }
+        button:hover { background-color: #0056b3; }
+        .clear-btn { background-color: #dc3545; }
+        .clear-btn:hover { background-color: #c82333; }
 
         form {
             background: #fff;
@@ -63,20 +56,14 @@
             margin-top: 20px;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        h2 { text-align: center; margin-bottom: 20px; }
 
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
-        
-        .full-width {
-            grid-column: span 2;
-        }
+        .full-width { grid-column: span 2; }
 
         .button-group {
             display: flex;
@@ -87,18 +74,13 @@
             justify-content: center;
         }
 
-        #lok {
-            cursor: pointer;
-            background-color: #f8f8f8;
-        }
-        
+        #lok { cursor: pointer; background-color: #f8f8f8; }
         .lokasi-container {
             grid-column: span 2;
             display: flex;
             flex-direction: column;
             gap: 5px;
         }
-
         .ambil-lokasi-btn {
             width: 100%;
             padding: 8px 10px;
@@ -110,10 +92,7 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-
-        .ambil-lokasi-btn:hover {
-            background-color: #218838;
-        }
+        .ambil-lokasi-btn:hover { background-color: #218838; }
 
         #statusMessage {
             font-weight: bold;
@@ -128,24 +107,16 @@
             aspect-ratio: 1 / 1;
             margin-top: 20px;
         }
-
         #map {
             width: 100%;
             height: 100%;
             border: 1px solid #ccc;
             border-radius: 8px;
         }
-        
         @media(max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .full-width {
-                grid-column: span 1;
-            }
-            .lokasi-container {
-                grid-column: span 1;
-            }
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .lokasi-container { grid-column: span 1; }
         }
     </style>
 </head>
@@ -170,20 +141,17 @@
             <button type="button" class="ambil-lokasi-btn" onclick="ambilLokasiSaatIni()">Ambil Lokasi Saat Ini</button>
         </div>
 
-        
         <div class="full-width">
             <label>Unggah Foto</label>
             <input type="file" id="photoInput" accept="image/*" disabled>
         </div>
-        
+
         <div><label>NO AO</label><input type="text" id="noao"></div>
-        <div><label>KKONTAK</label><input type="text" id="kkontak"></div>
-        <div><label>NAMA PELANGGAN</label><input type="text" id="nama"></div>
+        <div><label>KKONTAK</label><input type="text" id="kkontak" value="SPAHH43"></div>
+        <div><label>NAMA PELANGGAN</label><input type="text" id="namapelanggan"></div>
         <div><label>STO</label><input type="text" id="sto"></div>
         <div><label>TIKOR</label><input type="text" id="tikor"></div>
-        
-        
-        
+
         <div class="full-width map-container">
             <iframe id="map" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
@@ -191,8 +159,9 @@
         <div><label>PSB</label><select id="psb">
             <option>EZNET</option>
             <option>INDIHOME</option>
-            <option>EZNET WIRRELES</option>
+            <option>EZNET WIRELESS</option>
         </select></div>
+
         <div><label>PAKET</label><select id="paket">
             <option>20 MBPS</option>
             <option>50 MBPS</option>
@@ -201,14 +170,16 @@
             <option>200 MBPS</option>
             <option>10 MBPS</option>
         </select></div>
+
         <div><label>NO HP</label><input type="text" id="nohp"></div>
-        <div><label>CP ALTERNATIF</label><input type="text" id="cpalt"></div>
+        <div><label>CP ALTERNATIF</label><input type="text" id="cpalternatif"></div>
         <div><label>TIANG / PT2</label><input type="text" id="tiang"></div>
         <div><label>TL</label><input type="text" id="tl"></div>
     </div>
 </form>
 
 <script>
+    /* === KODE LAMA DIPERTAHANKAN === */
     const statusMessage = document.getElementById("statusMessage");
     const rawInput = document.getElementById("rawInput");
     const lokInput = document.getElementById("lok");
@@ -216,18 +187,37 @@
     const mapIframe = document.getElementById("map");
 
     tikorInput.addEventListener("input", () => {
-        tikorInput.value = tikorInput.value.replace(/\s/g, '');
-        updateMap(tikorInput.value);
+        const converted = convertTikor(tikorInput.value);
+        tikorInput.value = converted;
+        updateMap(converted);
     });
 
     function scrollAtas() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    /* === 🧭 KONVERSI TITIK KOORDINAT === */
+    function convertTikor(text) {
+        if (!text) return "";
+        const matches = text.match(/-?\d+[.,]\d+/g);
+        if (matches && matches.length >= 2) {
+            const first = matches[0].replace(',', '.');
+            const second = matches[1].replace(',', '.');
+            return first + ',' + second;
+        }
+        const collapsed = text.replace(/\s*,\s*/g, ',').replace(/\s+/g, ',');
+        const parts = collapsed.split(',');
+        if (parts.length >= 2) {
+            const a = parts[0].replace(/,/g, '.');
+            const b = parts[1].replace(/,/g, '.');
+            return a + ',' + b;
+        }
+        return text.trim();
+    }
+
     async function ambilAlamatDariKoordinat(lat, lon) {
         if (!lat || !lon) return "";
         const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
-
         try {
             const response = await fetch(url, { headers: { 'Accept-Language': 'id', 'User-Agent': 'Form Deal PSB App' } });
             const data = await response.json();
@@ -246,7 +236,7 @@
                 .catch(() => alert("Gagal menyalin."));
         }
     }
-    
+
     function resetForm() {
         document.getElementById("psbForm").reset();
         rawInput.value = "";
@@ -255,27 +245,22 @@
         document.getElementById("photoInput").value = null;
         updateMap("");
     }
-    
+
     function parseData(text) {
         const data = {};
         const lines = text.split("\n").map(l => l.trim());
-        const labels = ["NO AO :", "KKONTAK :", "NAMA PELANGGAN :", "STO :", "TIKOR :", "PSB :", "PAKET :", "NO HP :", "CP ALTERNATIF :", "TIANG / PT2 :", "TL :", "LOK :"];
-        
+        const labels = [
+            "NO AO :", "KKONTAK :", "NAMA PELANGGAN :", "STO :",
+            "TIKOR :", "PSB :", "PAKET :", "NO HP :", 
+            "CP ALTERNATIF :", "TIANG / PT2 :", "TL :", "LOK :"
+        ];
         labels.forEach(label => {
             const line = lines.find(l => l.startsWith(label));
             if (line) {
-                const key = label.replace(/ :/, "").toLowerCase().replace(/ /g, "").replace(/\//g, "").replace(/-/g, "");
+                const key = label.replace(/ :/,"").toLowerCase().replace(/ /g,"").replace(/\//g,"").replace(/-/g,"");
                 data[key] = line.replace(label, "").trim();
             }
         });
-        
-        if (!data.namapelanggan) {
-            const namaLine = lines.find(l => l.startsWith('NAMA PELANGGAN :'));
-            if (namaLine) {
-                data.namapelanggan = namaLine.replace('NAMA PELANGGAN :', '').trim();
-            }
-        }
-        
         return data;
     }
 
@@ -287,20 +272,12 @@
         }
 
         const fields = parseData(text);
-
-        const namaInput = document.getElementById('nama');
-        if (fields.namapelanggan && namaInput) {
-            namaInput.value = fields.namapelanggan;
-        }
-
         for (const key in fields) {
             const el = document.getElementById(key);
             if (el) {
                 if (el.tagName === 'SELECT') {
                     const optionExists = Array.from(el.options).some(opt => opt.value === fields[key]);
-                    if (optionExists) {
-                        el.value = fields[key];
-                    }
+                    if (optionExists) el.value = fields[key];
                 } else {
                     el.value = fields[key];
                 }
@@ -308,16 +285,16 @@
         }
 
         if (fields.tikor) {
-            const tikorTanpaSpasi = fields.tikor.replace(/\s/g, '');
-            tikorInput.value = tikorTanpaSpasi;
-            
+            const convertedTikor = convertTikor(fields.tikor);
+            tikorInput.value = convertedTikor;
+
             if (!fields.lok) {
                 lokInput.value = "Mengambil alamat...";
-                const [lat, lon] = tikorTanpaSpasi.split(",").map(s => s.trim());
+                const [lat, lon] = convertedTikor.split(",").map(s => s.trim());
                 const alamat = await ambilAlamatDariKoordinat(lat, lon);
                 lokInput.value = alamat;
             }
-            updateMap(tikorTanpaSpasi);
+            updateMap(convertedTikor);
         } else {
             updateMap("");
         }
@@ -330,11 +307,9 @@
             const [lat, lon] = tikor.split(",").map(s => s.trim());
             const mapsUrl = `https://maps.google.com/maps?q=${lat},${lon}&hl=id&z=17&t=k&output=embed`;
             mapIframe.src = mapsUrl;
-        } else {
-            mapIframe.src = "";
-        }
+        } else mapIframe.src = "";
     }
-    
+
     function ambilLokasiSaatIni() {
         if ("geolocation" in navigator) {
             statusMessage.textContent = "Mengambil lokasi...";
@@ -343,8 +318,7 @@
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
                 const tikor = `${lat},${lon}`;
-                
-                tikorInput.value = tikor;
+                tikorInput.value = convertTikor(tikor);
                 updateMap(tikor);
 
                 lokInput.value = "Mengambil alamat...";
@@ -356,26 +330,34 @@
             }, (error) => {
                 statusMessage.textContent = `❌ Gagal mengambil lokasi: ${error.message}`;
                 statusMessage.style.color = "red";
-                console.error("Geolocation Error:", error);
             });
         } else {
             alert("Browser Anda tidak mendukung Geolocation API.");
-            statusMessage.textContent = "❌ Geolocation tidak didukung.";
-            statusMessage.style.color = "red";
         }
     }
 
     async function salinText() {
         statusMessage.textContent = "Menyalin...";
         statusMessage.style.color = "black";
-        
-        const tikor = tikorInput.value;
-        
-        let textToCopy = `/dealpsb\nNO AO : ${noao.value}\nKKONTAK : ${kkontak.value}\nNAMA PELANGGAN : ${nama.value}\nSTO : ${sto.value}\nTIKOR : ${tikor}\nPSB : ${psb.value}\nPAKET : ${paket.value}\nNO HP : ${nohp.value}\nCP ALTERNATIF : ${cpalt.value}\nTIANG / PT2 : ${tiang.value}\nTL : ${tl.value}\nLOK : ${lokInput.value}`;
-        
+
+        const noao = document.getElementById("noao").value;
+        const kkontak = document.getElementById("kkontak").value;
+        const namapelanggan = document.getElementById("namapelanggan").value;
+        const sto = document.getElementById("sto").value;
+        const tikor = convertTikor(tikorInput.value);
+        const psb = document.getElementById("psb").value;
+        const paket = document.getElementById("paket").value;
+        const nohp = document.getElementById("nohp").value;
+        const cpalternatif = document.getElementById("cpalternatif").value;
+        const tiang = document.getElementById("tiang").value;
+        const tl = document.getElementById("tl").value;
+        const lok = lokInput.value;
+
+        let textToCopy = `/dealpsb\nNO AO : ${noao}\nKKONTAK : ${kkontak}\nNAMA PELANGGAN : ${namapelanggan}\nSTO : ${sto}\nTIKOR : ${tikor}\nPSB : ${psb}\nPAKET : ${paket}\nNO HP : ${nohp}\nCP ALTERNATIF : ${cpalternatif}\nTIANG / PT2 : ${tiang}\nTL : ${tl}\nLOK : ${lok}`;
+
         if (tikor && tikor.includes(",")) {
             const [lat, lon] = tikor.split(",").map(s => s.trim());
-            textToCopy += `\n\nMaps: https://www.google.com/maps?q=${lat},${lon}`;
+            textToCopy += `\n\nMaps: https://maps.google.com/maps?q=${lat},${lon}`;
         }
 
         try {
@@ -385,10 +367,8 @@
         } catch (err) {
             statusMessage.textContent = `❌ Gagal menyalin: ${err.message}`;
             statusMessage.style.color = "red";
-            console.error(err);
         }
     }
 </script>
-
 </body>
 </html>
