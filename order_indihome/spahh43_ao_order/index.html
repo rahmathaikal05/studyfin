@@ -163,6 +163,14 @@
 <form id="psbForm">
     <h2>Form Deal PSB</h2>
     <div class="form-grid">
+
+        <div class="lokasi-container">
+            <label>LOK (klik untuk salin)</label>
+            <input type="text" id="lok" readonly onclick="salinAlamat()">
+            <button type="button" class="ambil-lokasi-btn" onclick="ambilLokasiSaatIni()">Ambil Lokasi Saat Ini</button>
+        </div>
+
+        
         <div class="full-width">
             <label>Unggah Foto</label>
             <input type="file" id="photoInput" accept="image/*" disabled>
@@ -174,11 +182,7 @@
         <div><label>STO</label><input type="text" id="sto"></div>
         <div><label>TIKOR</label><input type="text" id="tikor"></div>
         
-        <div class="lokasi-container">
-            <label>LOK (klik untuk salin)</label>
-            <input type="text" id="lok" readonly onclick="salinAlamat()">
-            <button type="button" class="ambil-lokasi-btn" onclick="ambilLokasiSaatIni()">Ambil Lokasi Saat Ini</button>
-        </div>
+        
         
         <div class="full-width map-container">
             <iframe id="map" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
