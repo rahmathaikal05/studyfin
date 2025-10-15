@@ -4,7 +4,7 @@ const loadingOverlay = document.getElementById('loading-overlay');
 const popupSuccess = document.getElementById('popup-success');
 const closePopup = document.getElementById('close-popup');
 
-// const scriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx5JvuMzCuZKFcGprtVJQd47GZcIMtt9ucCpZRLyI63MKVUYIBh9wkNounL7RB6_A-N/exec';
 const telegramBotToken = '8217981437:AAEXx2Tdv_fMN-QuId4xkBoUQwAZIQpj8XA';
 const telegramChatId = '@fyi24a_bot';
 
@@ -139,4 +139,5 @@ ${tugasText}
     console.error(err);
   }
 });
+
 
